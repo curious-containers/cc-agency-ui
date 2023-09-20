@@ -9,7 +9,7 @@
           <ol class="float-sm-right">
             <p>
               <i class="fa-solid fa-user" />
-              Username
+              {{ username }}
             </p>
           </ol>
         </div>
@@ -21,7 +21,7 @@
 <script>
 
 export default {
-  props: ['title'],
+  props: ['title', 'username'],
   name: 'Header'
 }
 </script>

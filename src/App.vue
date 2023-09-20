@@ -1,72 +1,37 @@
 <template>
-  <!-- Main Sidebar Container -->
-  <aside v-if="currentUser" class="main-sidebar sidebar-dark-primary elevation-4">
-    <router-link :to="{ name: 'Dashboard' }">
-      <img src="@/assets/logo.svg" alt="Curious Container Logo">
-    </router-link>
+  <Sidebar v-if="isLoggedIn" />
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
-          <li class="nav-item">
-            <router-link :to="{ name: 'Dashboard' }">
-              <p>Dashboard</p>
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link :to="{ name: 'Experiments' }">
-              <p>Experiments</p>
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link :to="{ name: 'Batches' }">
-              <p>Batches</p>
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/">
-              <p>Connector</p>
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/">
-              <p>Cloud</p>
-            </router-link>
-          </li>
-        </ul>
-      </nav>
-    </div>
-    <!-- /.sidebar -->
-  </aside>
-
-  <div v-if="currentUser" class="content-wrapper">
-    <Header :title="currentRouteName" />
+  <div v-if="isLoggedIn" class="content-wrapper">
+    <Header :title="currentRouteName" :username="currentUser" />
     <router-view />
   </div>
 
-  <router-view v-if="!currentUser" />
+  <router-view v-if="!isLoggedIn" />
 </template>
 
 <script>
-import Header from '@/views/Header.vue'
+import Header from '@/components/Header.vue'
+import Sidebar from '@/components/Sidebar.vue'
 import Dashboard from '@/views/Dashboard.vue'
 import Experiments from '@/views/Experiments.vue'
 import Batches from '@/views/Batches.vue'
 
+import { mapGetters } from "vuex";
+
 export default {
   components: {
-    Header, Dashboard, Experiments, Batches
+    Header, Sidebar, Dashboard, Experiments, Batches
   },
   mounted() {
     document.title = "Curious Containers"
   },
   computed: {
+    ...mapGetters(["isLoggedIn"]),
     currentRouteName() {
       return this.$route.name;
     },
     currentUser() {
-      return false;
+      return localStorage.getItem('username');
     }
   }
 }
