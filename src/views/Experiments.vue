@@ -15,7 +15,7 @@
             <tbody>
               <tr v-for="experiment in experiments">
                 <td>{{ experiment._id }}</td>
-                <td>{{ experiment.registrationTime }}</td>
+                <td>{{ formatDate(experiment.registrationTime) }}</td>
                 <td>{{ experiment.username }}</td>
               </tr>
             </tbody>
@@ -28,6 +28,7 @@
 
 <script>
 import axios from 'axios'
+import moment from 'moment';
 
 export default {
   name: 'Experiments',
@@ -69,7 +70,10 @@ export default {
         "responsive": true,
       });
     },
-
+    formatDate(millis) {
+      let date = new Date(millis * 1000)
+      return moment(date).format('YYYY-MM-DD hh:mm:ss')
+    }
   }
 }
 </script>
