@@ -60,7 +60,7 @@ export default {
     createDataTable() {
       this.dataTable = $('#experimentsTable').DataTable({
         "paging": true,
-        "pageLength": 20,
+        "pageLength": 25,
         "lengthChange": false,
         "searching": false,
         "ordering": true,
