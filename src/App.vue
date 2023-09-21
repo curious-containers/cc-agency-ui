@@ -1,12 +1,12 @@
 <template>
-  <Sidebar v-if="isLoggedIn" />
+  <Sidebar v-if="$store.getters.isLoggedIn" />
 
-  <div v-if="isLoggedIn" class="content-wrapper">
-    <Header :title="currentRouteName" :username="currentUser" />
+  <div v-if="$store.getters.isLoggedIn" class="content-wrapper">
+    <Header :title="currentRouteName" />
     <router-view />
   </div>
 
-  <router-view v-if="!isLoggedIn" />
+  <router-view v-if="!$store.getters.isLoggedIn" />
 </template>
 
 <script>
@@ -16,8 +16,6 @@ import Dashboard from '@/views/Dashboard.vue'
 import Experiments from '@/views/Experiments.vue'
 import Batches from '@/views/Batches.vue'
 
-import { mapGetters } from "vuex";
-
 export default {
   components: {
     Header, Sidebar, Dashboard, Experiments, Batches
@@ -26,12 +24,11 @@ export default {
     document.title = "Curious Containers"
   },
   computed: {
-    ...mapGetters(["isLoggedIn"]),
     currentRouteName() {
       return this.$route.name;
     },
-    currentUser() {
-      return localStorage.getItem('username');
+    isLoggedIn() {
+      return this.$store.state.user;
     }
   }
 }

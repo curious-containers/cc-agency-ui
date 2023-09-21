@@ -35,7 +35,6 @@
 
 <script>
 import axios from 'axios'
-import { mapMutations } from "vuex";
 
 export default {
   name: 'Login',
@@ -46,7 +45,6 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["setUser", "setToken"]),
     handleLogin() {
       axios.post(process.env.VUE_APP_AGENCY_URL + '/login', {}, {
         auth: {
@@ -54,10 +52,8 @@ export default {
           password: this.password
         }
       }).then(res => {
-        //localStorage.setItem('username', res.data.username)
-        //localStorage.setItem('token', res.data.access_token)
-        this.setUser(res.data.username);
-        this.setToken(res.data.access_token);
+        this.$store.dispatch('setUser', res.data.username)
+        this.$store.dispatch('setToken', res.data.access_token)
         this.$router.push("/")
       }).catch(err => {
         this.username = ""

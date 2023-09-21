@@ -9,7 +9,7 @@
           <ol class="float-sm-right">
             <p>
               <i class="fa-solid fa-user" />
-              {{ username }}
+              {{ $store.state.user }}
             </p>
           </ol>
         </div>
@@ -21,7 +21,7 @@
 <script>
 
 export default {
-  props: ['title', 'username'],
+  props: ['title'],
   name: 'Header'
 }
 </script>

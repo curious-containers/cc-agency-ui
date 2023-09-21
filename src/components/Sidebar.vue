@@ -55,8 +55,9 @@ export default {
   name: 'Sidebar',
   methods: {
     handleLogout() {
-      localStorage.removeItem('username')
-      localStorage.removeItem('token')
+      this.$store.dispatch('removeUser')
+      this.$store.dispatch('removeToken')
+      window.sessionStorage.clear()
       this.$router.push("/login")
     }
   }

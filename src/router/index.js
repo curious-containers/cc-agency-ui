@@ -3,6 +3,7 @@ import Dashboard from '@/views/Dashboard.vue'
 import Login from '@/views/Login.vue'
 import Experiments from '@/views/Experiments.vue'
 import Batches from '@/views/Batches.vue'
+import store from '@/store'
 
 const routes = [
   {
@@ -46,8 +47,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {
-    const token = localStorage.getItem('token');
-    if (token) {
+    if (store.getters.isLoggedIn) {
       next();
     } else {
       next('/login');
