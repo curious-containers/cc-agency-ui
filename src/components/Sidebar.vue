@@ -23,7 +23,7 @@
               <p>Batches</p>
             </router-link>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <router-link to="/">
               <p>Connector</p>
             </router-link>
@@ -32,7 +32,7 @@
             <router-link to="/">
               <p>Cloud</p>
             </router-link>
-          </li>
+          </li> -->
         </ul>
       </nav>
     </div>
