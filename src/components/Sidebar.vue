@@ -65,6 +65,10 @@ export default {
 </script>
 
 <style>
+.main-sidebar {
+  position: fixed !important;
+}
+
 .sidebar-footer-content {
   position: absolute;
   height: fit-content;
