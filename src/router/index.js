@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Dashboard from '@/views/Dashboard.vue'
 import Login from '@/views/Login.vue'
 import Experiments from '@/views/Experiments.vue'
+import Experiment from '@/views/Experiment.vue'
 import Batches from '@/views/Batches.vue'
 import store from '@/store'
 
@@ -26,6 +27,14 @@ const routes = [
     path: '/experiments',
     name: 'Experiments',
     component: Experiments,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/experiments/:id',
+    name: 'Experiment',
+    component: Experiment,
     meta: {
       requiresAuth: true
     }

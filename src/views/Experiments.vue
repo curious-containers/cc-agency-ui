@@ -14,7 +14,11 @@
             </thead>
             <tbody>
               <tr v-for="experiment in experiments">
-                <td>{{ experiment._id }}</td>
+                <td>
+                  <router-link :to="{ name: 'Experiment', params: { id: experiment._id } }">
+                    {{ experiment._id }}
+                  </router-link>
+                </td>
                 <td>{{ formatDate(experiment.registrationTime) }}</td>
                 <td>{{ experiment.username }}</td>
               </tr>
@@ -42,7 +46,6 @@ export default {
     this.loadExperimentsData()
   },
   updated() {
-    console.log("updated")
     this.createDataTable()
   },
   methods: {
