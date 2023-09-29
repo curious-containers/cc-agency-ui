@@ -29,7 +29,7 @@
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">
-                Experiment CLI
+                CLI
               </h3>
             </div>
             <div class="card-body">
@@ -54,6 +54,42 @@
                 <dd class="col-sm-8" v-if="experiment.cli.stderr">{{ experiment.cli.stderr }}</dd>
                 <dt class="col-sm-4" v-if="experiment.cli.doc">doc</dt>
                 <dd class="col-sm-8" v-if="experiment.cli.doc">{{ experiment.cli.doc }}</dd>
+              </dl>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">
+                Experiment Container
+              </h3>
+            </div>
+            <div class="card-body">
+              <dl class="row">
+                <dt class="col-sm-4">Engine</dt>
+                <dd class="col-sm-8">{{ experiment.container.engine }}</dd>
+                <dt class="col-sm-4">Image url</dt>
+                <dd class="col-sm-8">{{ experiment.container.settings.image.url }}</dd>
+                <dt class="col-sm-4">RAM</dt>
+                <dd class="col-sm-8">{{ experiment.container.settings.ram }}</dd>
+              </dl>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">
+                Execution
+              </h3>
+            </div>
+            <div class="card-body">
+              <dl class="row">
+                <dt class="col-sm-4">Engine</dt>
+                <dd class="col-sm-8">{{ experiment.execution.engine }}</dd>
+                <dt class="col-sm-4">disable connector validation</dt>
+                <dd class="col-sm-8">{{ experiment.execution.settings.disableConnectorValidation }}</dd>
+                <dt class="col-sm-4">retry if failed</dt>
+                <dd class="col-sm-8">{{ experiment.execution.settings.retryIfFailed }}</dd>
               </dl>
             </div>
           </div>
