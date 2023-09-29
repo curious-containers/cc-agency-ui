@@ -41,9 +41,13 @@
                 <dt class="col-sm-4">cwlVersion</dt>
                 <dd class="col-sm-8">{{ experiment.cli.cwlVersion }}</dd>
                 <dt class="col-sm-4">inputs</dt>
-                <dd class="col-sm-8">{{ experiment.cli.inputs }}</dd>
+                <dd class="col-sm-8">
+                  <InputsTable :inputs="experiment.cli.inputs" />
+                </dd>
                 <dt class="col-sm-4">outputs</dt>
-                <dd class="col-sm-8">{{ experiment.cli.outputs }}</dd>
+                <dd class="col-sm-8">
+                  <OutputsTable :outputs="experiment.cli.outputs" />
+                </dd>
                 <dt class="col-sm-4" v-if="experiment.cli.stdout">stdout</dt>
                 <dd class="col-sm-8" v-if="experiment.cli.stdout">{{ experiment.cli.stdout }}</dd>
                 <dt class="col-sm-4" v-if="experiment.cli.stderr">stderr</dt>
@@ -68,8 +72,14 @@
 import api from '@/services/api'
 import moment from 'moment';
 
+import InputsTable from '@/components/red/InputsTable.vue'
+import OutputsTable from '@/components/red/OutputsTable.vue'
+
 export default {
   name: 'Experiment',
+  components: {
+    InputsTable, OutputsTable
+  },
   data() {
     return {
       experiment: undefined
@@ -93,3 +103,17 @@ export default {
   }
 }
 </script>
+
+<style>
+td:first-child {
+  width: 25%;
+}
+
+td:nth-child(2) {
+  width: 55%;
+}
+
+td:last-child {
+  width: 20%;
+}
+</style>
