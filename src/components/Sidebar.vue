@@ -50,15 +50,13 @@
 </template>
 
 <script>
+import AuthService from '@/services/auth'
 
 export default {
   name: 'Sidebar',
   methods: {
     handleLogout() {
-      this.$store.dispatch('removeUser')
-      this.$store.dispatch('removeToken')
-      window.sessionStorage.clear()
-      this.$router.push("/login")
+      AuthService.logout()
     }
   }
 }

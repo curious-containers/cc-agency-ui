@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import AuthService from '@/services/auth'
 
 export default {
   name: 'Login',
@@ -46,19 +46,7 @@ export default {
   },
   methods: {
     handleLogin() {
-      axios.post(process.env.VUE_APP_AGENCY_URL + '/login', {}, {
-        auth: {
-          username: this.username,
-          password: this.password
-        }
-      }).then(res => {
-        this.$store.dispatch('setUser', res.data.username)
-        this.$store.dispatch('setToken', res.data.access_token)
-        this.$router.push("/")
-      }).catch(err => {
-        this.username = ""
-        this.password = ""
-      })
+      AuthService.login(this.username, this.password)
     }
   }
 }

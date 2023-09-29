@@ -8,6 +8,7 @@ export default createStore({
     state: {
         user: null,
         token: null,
+        refresh_token: null
     },
     mutations: {
         UPDATE_USER(state, user) {
@@ -15,6 +16,9 @@ export default createStore({
         },
         UPDATE_TOKEN(state, token) {
             state.token = token
+        },
+        UPDATE_REFRESH_TOKEN(state, refresh_token) {
+            state.refresh_token = refresh_token
         }
     },
     actions: {
@@ -29,6 +33,12 @@ export default createStore({
         },
         removeToken(context) {
             context.commit('UPDATE_TOKEN', null)
+        },
+        setRefreshToken(context, refresh_token) {
+            context.commit('UPDATE_REFRESH_TOKEN', refresh_token)
+        },
+        removeRefreshToken(context) {
+            context.commit('UPDATE_REFRESH_TOKEN', null)
         },
     },
     getters: {

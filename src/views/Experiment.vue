@@ -40,10 +40,16 @@
                 <dd class="col-sm-8">{{ experiment.cli.class }}</dd>
                 <dt class="col-sm-4">cwlVersion</dt>
                 <dd class="col-sm-8">{{ experiment.cli.cwlVersion }}</dd>
-                <dt class="col-sm-4">baseCommand</dt>
-                <dd class="col-sm-8">{{ experiment.cli.baseCommand }}</dd>
-                <dt class="col-sm-4">baseCommand</dt>
-                <dd class="col-sm-8">{{ experiment.cli.baseCommand }}</dd>
+                <dt class="col-sm-4">inputs</dt>
+                <dd class="col-sm-8">{{ experiment.cli.inputs }}</dd>
+                <dt class="col-sm-4">outputs</dt>
+                <dd class="col-sm-8">{{ experiment.cli.outputs }}</dd>
+                <dt class="col-sm-4" v-if="experiment.cli.stdout">stdout</dt>
+                <dd class="col-sm-8" v-if="experiment.cli.stdout">{{ experiment.cli.stdout }}</dd>
+                <dt class="col-sm-4" v-if="experiment.cli.stderr">stderr</dt>
+                <dd class="col-sm-8" v-if="experiment.cli.stderr">{{ experiment.cli.stderr }}</dd>
+                <dt class="col-sm-4" v-if="experiment.cli.doc">doc</dt>
+                <dd class="col-sm-8" v-if="experiment.cli.doc">{{ experiment.cli.doc }}</dd>
               </dl>
             </div>
           </div>
@@ -59,7 +65,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import api from '@/services/api'
 import moment from 'moment';
 
 export default {
@@ -74,11 +80,7 @@ export default {
   },
   methods: {
     loadExperimentData() {
-      axios.get(process.env.VUE_APP_AGENCY_URL + '/experiments/' + this.$route.params.id, {
-        headers: {
-          Authorization: "Bearer " + this.$store.state.token
-        }
-      }).then(res => {
+      api.get('/experiments/' + this.$route.params.id).then(res => {
         this.experiment = res.data
       }).catch(err => {
         console.log(err)

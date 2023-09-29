@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import api from '@/services/api'
 import moment from 'moment';
 
 export default {
@@ -50,11 +50,7 @@ export default {
   },
   methods: {
     loadExperimentsData() {
-      axios.get(process.env.VUE_APP_AGENCY_URL + '/experiments', {
-        headers: {
-          Authorization: "Bearer " + this.$store.state.token
-        }
-      }).then(res => {
+      api.get('/experiments').then(res => {
         this.experiments = res.data
       }).catch(err => {
         console.log(err)
