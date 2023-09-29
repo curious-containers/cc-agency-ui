@@ -3,7 +3,7 @@
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Input binding</th>
+                <th>Output binding</th>
                 <th>Type</th>
             </tr>
         </thead>
