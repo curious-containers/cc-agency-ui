@@ -16,9 +16,8 @@
         </tbody>
     </table>
 </template>
-  
-<script>
 
+<script>
 export default {
     props: ['inputs'],
     name: 'InputsTable'
