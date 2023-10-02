@@ -4,6 +4,7 @@ import Login from '@/views/Login.vue'
 import Experiments from '@/views/Experiments.vue'
 import Experiment from '@/views/Experiment.vue'
 import Batches from '@/views/Batches.vue'
+import Batch from '@/views/Batch.vue'
 import store from '@/store'
 
 const routes = [
@@ -43,6 +44,14 @@ const routes = [
     path: '/batches',
     name: 'Batches',
     component: Batches,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/batches/:id',
+    name: 'Batch',
+    component: Batch,
     meta: {
       requiresAuth: true
     }

@@ -53,4 +53,32 @@ nav a {
 nav a.router-link-exact-active {
   color: #61abd1 !important;
 }
+
+.badge {
+  color: #fff;
+}
+
+.badge.registered {
+  background-color: #6c757d;
+}
+
+.badge.scheduled {
+  background-color: #3b3f42;
+}
+
+.badge.processing {
+  background-color: #007bff;
+}
+
+.badge.succeeded {
+  background-color: #28a745;
+}
+
+.badge.failed {
+  background-color: #dc3545;
+}
+
+.badge.cancelled {
+  background-color: #ffc107;
+}
 </style>
