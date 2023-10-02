@@ -20,7 +20,20 @@
 <script>
 export default {
     props: ['outputs'],
-    name: 'OutputsTable'
+    name: 'CLIOutputsTable'
 }
 </script>
-  
+
+<style scoped>
+td:first-child {
+    width: 25%;
+}
+
+td:nth-child(2) {
+    width: 55%;
+}
+
+td:last-child {
+    width: 20%;
+}
+</style>
