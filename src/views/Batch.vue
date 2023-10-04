@@ -147,25 +147,35 @@
               </h3>
             </div>
             <div class="card-body">
-              <div v-for="input in batch.inputs">
-                <dl class="row">
-                  <dt class="col-sm-3">Basename</dt>
-                  <dd class="col-sm-9">{{ input.basename }}</dd>
-                  <dt class="col-sm-3">Class</dt>
-                  <dd class="col-sm-9">{{ input.class }}</dd>
-                  <dt class="col-sm-3">Dirname</dt>
-                  <dd class="col-sm-9">{{ input.dirname }}</dd>
-                  <dt class="col-sm-3">Path</dt>
-                  <dd class="col-sm-9">{{ input.path }}</dd>
-                  <dt class="col-sm-3">Name ext</dt>
-                  <dd class="col-sm-9">{{ input.nameext ? input.nameext : "-" }}</dd>
-                  <dt class="col-sm-3">Name root</dt>
-                  <dd class="col-sm-9">{{ input.nameroot }}</dd>
-                  <dt class="col-sm-3">Connector command</dt>
-                  <dd class="col-sm-9">{{ input.connector.command }}</dd>
-                  <dt class="col-sm-3">Connector access</dt>
-                  <dd class="col-sm-9">{{ input.connector.access }}</dd>
-                </dl>
+              <div v-for="(input, key) in  batch.inputs ">
+                <div v-if="typeof input === 'object'">
+                  <dl class="row">
+                    <dt class="col-sm-3">Basename</dt>
+                    <dd class="col-sm-9">{{ key }}</dd>
+                    <dt class="col-sm-3">Class</dt>
+                    <dd class="col-sm-9">{{ input.class }}</dd>
+                    <dt class="col-sm-3">Dirname</dt>
+                    <dd class="col-sm-9">{{ input.dirname }}</dd>
+                    <dt class="col-sm-3">Path</dt>
+                    <dd class="col-sm-9">{{ input.path }}</dd>
+                    <dt class="col-sm-3">Name ext</dt>
+                    <dd class="col-sm-9">{{ input.nameext ? input.nameext : "-" }}</dd>
+                    <dt class="col-sm-3">Name root</dt>
+                    <dd class="col-sm-9">{{ input.nameroot }}</dd>
+                    <dt class="col-sm-3">Connector command</dt>
+                    <dd class="col-sm-9">{{ input.connector.command }}</dd>
+                    <dt class="col-sm-3">Connector access</dt>
+                    <dd class="col-sm-9">{{ input.connector.access }}</dd>
+                  </dl>
+                </div>
+                <div v-if="typeof input !== 'object'">
+                  <dl class="row">
+                    <dt class="col-sm-3">Basename</dt>
+                    <dd class="col-sm-9">{{ key }}</dd>
+                    <dt class="col-sm-3">Value</dt>
+                    <dd class="col-sm-9">{{ input }}</dd>
+                  </dl>
+                </div>
                 <hr>
               </div>
             </div>
@@ -178,7 +188,7 @@
               </h3>
             </div>
             <div class="card-body">
-              <div v-for="(output, key) in batch.outputs">
+              <div v-for="( output, key ) in  batch.outputs ">
                 <dl class="row">
                   <dt class="col-sm-3">Basename</dt>
                   <dd class="col-sm-9">{{ key }}</dd>
