@@ -80,7 +80,7 @@
                     <p class="no-margin" v-for="line in history.ccagent.debugInfo">{{ line }}</p>
                   </dd>
                   <dt class="col-sm-3 set-in" v-if="history.ccagent">Inputs</dt>
-                  <dd class="col-sm-9 set-in" v-if="history.ccagent">
+                  <dd class="col-sm-9 set-in" v-if="history.ccagent && history.ccagent.inputs !== null">
                     <table class="table table-bordered">
                       <thead>
                         <tr>
@@ -100,6 +100,7 @@
                       </tbody>
                     </table>
                   </dd>
+                  <dd class="col-sm-9 set-in" v-if="history.ccagent && history.ccagent.inputs == null">-</dd>
                   <dt class="col-sm-3 set-in" v-if="history.ccagent">Outputs</dt>
                   <dd class="col-sm-9 set-in" v-if="history.ccagent && history.ccagent.outputs !== null">
                     <table class="table table-bordered">
@@ -123,13 +124,17 @@
                   </dd>
                   <dd class="col-sm-9 set-in" v-if="history.ccagent && history.ccagent.outputs == null">-</dd>
                   <dt class="col-sm-3 set-in" v-if="history.ccagent">Process executed</dt>
-                  <dd class="col-sm-9 set-in" v-if="history.ccagent">{{ history.ccagent.process.executed }}</dd>
+                  <dd class="col-sm-9 set-in" v-if="history.ccagent">{{ history.ccagent.process.executed ?
+                    history.ccagent.process.executed : '-' }}</dd>
                   <dt class="col-sm-3 set-in" v-if="history.ccagent">Process returnCode</dt>
-                  <dd class="col-sm-9 set-in" v-if="history.ccagent">{{ history.ccagent.process.returnCode }}</dd>
+                  <dd class="col-sm-9 set-in" v-if="history.ccagent">{{ history.ccagent.process.returnCode ?
+                    history.ccagent.process.returnCode : '-' }}</dd>
                   <dt class="col-sm-3 set-in" v-if="history.ccagent">Process stderr</dt>
-                  <dd class="col-sm-9 set-in" v-if="history.ccagent">{{ history.ccagent.process.stderr }}</dd>
+                  <dd class="col-sm-9 set-in" v-if="history.ccagent">{{ history.ccagent.process.stderr ?
+                    history.ccagent.process.stderr : '-' }}</dd>
                   <dt class="col-sm-3 set-in" v-if="history.ccagent">Process stdout</dt>
-                  <dd class="col-sm-9 set-in" v-if="history.ccagent">{{ history.ccagent.process.stdout }}</dd>
+                  <dd class="col-sm-9 set-in" v-if="history.ccagent">{{ history.ccagent.process.stdout ?
+                    history.ccagent.process.stdout : '-' }}</dd>
                   <dt class="col-sm-3 set-in" v-if="history.ccagent">State</dt>
                   <dd class="col-sm-9 set-in" v-if="history.ccagent">
                     <span class="badge badge-pill" :class="history.state">{{ history.ccagent.state }}</span>
@@ -148,10 +153,26 @@
             </div>
             <div class="card-body">
               <div v-for="(input, key) in  batch.inputs ">
-                <div v-if="typeof input === 'object'">
+                <div v-if="Array.isArray(input)">
+                  <div v-for="arrayInput in input">
+                    <dl class="row">
+                      <dt class="col-sm-3">Basename</dt>
+                      <dd class="col-sm-9">{{ arrayInput.basename }}</dd>
+                      <dt class="col-sm-3">Class</dt>
+                      <dd class="col-sm-9">{{ arrayInput.class }}</dd>
+                      <dt class="col-sm-3">Path</dt>
+                      <dd class="col-sm-9">{{ arrayInput.path }}</dd>
+                      <dt class="col-sm-3">Connector command</dt>
+                      <dd class="col-sm-9">{{ arrayInput.connector.command }}</dd>
+                      <dt class="col-sm-3">Connector access</dt>
+                      <dd class="col-sm-9">{{ arrayInput.connector.access }}</dd>
+                    </dl>
+                  </div>
+                </div>
+                <div v-if="typeof input === 'object' && !Array.isArray(input)">
                   <dl class="row">
                     <dt class="col-sm-3">Basename</dt>
-                    <dd class="col-sm-9">{{ key }}</dd>
+                    <dd class="col-sm-9">{{ input.basename }}</dd>
                     <dt class="col-sm-3">Class</dt>
                     <dd class="col-sm-9">{{ input.class }}</dd>
                     <dt class="col-sm-3">Dirname</dt>
