@@ -39,6 +39,8 @@
                 <dd class="col-sm-8">{{ batch.notificationsSent }}</dd>
                 <dt class="col-sm-4">Protected keys voided</dt>
                 <dd class="col-sm-8">{{ batch.protectedKeysVoided }}</dd>
+                <dt class="col-sm-4" v-if="batch.usedGPUs">GPUs</dt>
+                <dd class="col-sm-8" v-if="batch.usedGPUs">{{ batch.usedGPUs }}</dd>
                 <dt class="col-sm-4">Used specified Stderr</dt>
                 <dd class="col-sm-8">{{ batch.usedSpecifiedStderr }}</dd>
                 <dt class="col-sm-4">Used specified Stdout</dt>
@@ -189,19 +191,6 @@
                 </dl>
                 <hr>
               </div>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">
-                Batch GPUs (?)
-              </h3>
-            </div>
-            <div class="card-body">
-              <dl class="row">
-
-              </dl>
             </div>
           </div>
 
