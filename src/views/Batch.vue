@@ -15,7 +15,10 @@
                 <dt class="col-sm-4">ID</dt>
                 <dd class="col-sm-8">{{ batch._id }}</dd>
                 <dt class="col-sm-4">Experiment ID</dt>
-                <dd class="col-sm-8">{{ batch.experimentId }}</dd>
+                <dd class="col-sm-8">
+                  <router-link :to="{ name: 'Experiment', params: { id: batch.experimentId } }">{{ batch.experimentId
+                  }}</router-link>
+                </dd>
                 <dt class="col-sm-4">Status</dt>
                 <dd class="col-sm-8">
                   <span class="badge badge-pill" :class="batch.state">{{ batch.state }}</span>
@@ -55,9 +58,83 @@
               </h3>
             </div>
             <div class="card-body">
-              <dl class="row">
-
-              </dl>
+              <div v-for="history in batch.history">
+                <dl class="row">
+                  <dt class="col-sm-3">State</dt>
+                  <dd class="col-sm-9">
+                    <span class="badge badge-pill" :class="history.state">{{ history.state }}</span>
+                  </dd>
+                  <dt class="col-sm-3">Time</dt>
+                  <dd class="col-sm-9">{{ formatDate(history.time) }}</dd>
+                  <dt class="col-sm-3">Node</dt>
+                  <dd class="col-sm-9">{{ history.node ? history.node : '-' }}</dd>
+                  <dt class="col-sm-3">Debug Info</dt>
+                  <dd class="col-sm-9">{{ history.debugInfo ? history.debugInfo : '-' }}</dd>
+                  <dt class="col-sm-12" v-if="history.ccagent">CCAgent</dt>
+                  <dt class="col-sm-3 set-in" v-if="history.ccagent">Command</dt>
+                  <dd class="col-sm-9 set-in" v-if="history.ccagent">{{ history.ccagent.command }}</dd>
+                  <dt class="col-sm-3 set-in" v-if="history.ccagent">Debug Info</dt>
+                  <dd class="col-sm-9 set-in" v-if="history.ccagent">
+                    <p class="no-margin" v-for="line in history.ccagent.debugInfo">{{ line }}</p>
+                  </dd>
+                  <dt class="col-sm-3 set-in" v-if="history.ccagent">Inputs</dt>
+                  <dd class="col-sm-9 set-in" v-if="history.ccagent">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Class</th>
+                          <th>Path</th>
+                          <th>Size</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="(value, key) in history.ccagent.inputs">
+                          <td>{{ key }}</td>
+                          <td>{{ value.class }}</td>
+                          <td>{{ value.path }}</td>
+                          <td>{{ value.size }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </dd>
+                  <dt class="col-sm-3 set-in" v-if="history.ccagent">Outputs</dt>
+                  <dd class="col-sm-9 set-in" v-if="history.ccagent && history.ccagent.outputs !== null">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Class</th>
+                          <th>Path</th>
+                          <th>Size</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="(value, key) in history.ccagent.outputs">
+                          <td>{{ key }}</td>
+                          <td>{{ value.class }}</td>
+                          <td>{{ value.path }}</td>
+                          <td>{{ value.size }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </dd>
+                  <dd class="col-sm-9 set-in" v-if="history.ccagent && history.ccagent.outputs == null">-</dd>
+                  <dt class="col-sm-3 set-in" v-if="history.ccagent">Process executed</dt>
+                  <dd class="col-sm-9 set-in" v-if="history.ccagent">{{ history.ccagent.process.executed }}</dd>
+                  <dt class="col-sm-3 set-in" v-if="history.ccagent">Process returnCode</dt>
+                  <dd class="col-sm-9 set-in" v-if="history.ccagent">{{ history.ccagent.process.returnCode }}</dd>
+                  <dt class="col-sm-3 set-in" v-if="history.ccagent">Process stderr</dt>
+                  <dd class="col-sm-9 set-in" v-if="history.ccagent">{{ history.ccagent.process.stderr }}</dd>
+                  <dt class="col-sm-3 set-in" v-if="history.ccagent">Process stdout</dt>
+                  <dd class="col-sm-9 set-in" v-if="history.ccagent">{{ history.ccagent.process.stdout }}</dd>
+                  <dt class="col-sm-3 set-in" v-if="history.ccagent">State</dt>
+                  <dd class="col-sm-9 set-in" v-if="history.ccagent">
+                    <span class="badge badge-pill" :class="history.state">{{ history.ccagent.state }}</span>
+                  </dd>
+                </dl>
+                <hr>
+              </div>
             </div>
           </div>
 

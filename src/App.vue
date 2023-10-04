@@ -81,4 +81,18 @@ nav a.router-link-exact-active {
 .badge.cancelled {
   background-color: #ffc107;
 }
+
+dt.set-in {
+  padding-left: 20px;
+  padding-top: 10px;
+  font-weight: 100;
+}
+
+dd.set-in {
+  padding-top: 10px;
+}
+
+.no-margin {
+  margin: 0 !important;
+}
 </style>
