@@ -145,9 +145,27 @@
               </h3>
             </div>
             <div class="card-body">
-              <dl class="row">
-
-              </dl>
+              <div v-for="input in batch.inputs">
+                <dl class="row">
+                  <dt class="col-sm-3">Basename</dt>
+                  <dd class="col-sm-9">{{ input.basename }}</dd>
+                  <dt class="col-sm-3">Class</dt>
+                  <dd class="col-sm-9">{{ input.class }}</dd>
+                  <dt class="col-sm-3">Dirname</dt>
+                  <dd class="col-sm-9">{{ input.dirname }}</dd>
+                  <dt class="col-sm-3">Path</dt>
+                  <dd class="col-sm-9">{{ input.path }}</dd>
+                  <dt class="col-sm-3">Name ext</dt>
+                  <dd class="col-sm-9">{{ input.nameext ? input.nameext : "-" }}</dd>
+                  <dt class="col-sm-3">Name root</dt>
+                  <dd class="col-sm-9">{{ input.nameroot }}</dd>
+                  <dt class="col-sm-3">Connector command</dt>
+                  <dd class="col-sm-9">{{ input.connector.command }}</dd>
+                  <dt class="col-sm-3">Connector access</dt>
+                  <dd class="col-sm-9">{{ input.connector.access }}</dd>
+                </dl>
+                <hr>
+              </div>
             </div>
           </div>
 
@@ -158,9 +176,19 @@
               </h3>
             </div>
             <div class="card-body">
-              <dl class="row">
-
-              </dl>
+              <div v-for="(output, key) in batch.outputs">
+                <dl class="row">
+                  <dt class="col-sm-3">Basename</dt>
+                  <dd class="col-sm-9">{{ key }}</dd>
+                  <dt class="col-sm-3">Class</dt>
+                  <dd class="col-sm-9">{{ output.class }}</dd>
+                  <dt class="col-sm-3">Connector command</dt>
+                  <dd class="col-sm-9">{{ output.connector.command }}</dd>
+                  <dt class="col-sm-3">Connector access</dt>
+                  <dd class="col-sm-9">{{ output.connector.access }}</dd>
+                </dl>
+                <hr>
+              </div>
             </div>
           </div>
 
