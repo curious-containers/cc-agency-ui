@@ -16,8 +16,9 @@
                 <dd class="col-sm-8">{{ batch._id }}</dd>
                 <dt class="col-sm-4">Experiment ID</dt>
                 <dd class="col-sm-8">
-                  <router-link :to="{ name: 'Experiment', params: { id: batch.experimentId } }">{{ batch.experimentId
-                  }}</router-link>
+                  <router-link :to="{ name: 'Experiment', params: { id: batch.experimentId } }">
+                    {{ batch.experimentId }}
+                  </router-link>
                 </dd>
                 <dt class="col-sm-4">Status</dt>
                 <dd class="col-sm-8">
