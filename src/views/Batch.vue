@@ -76,11 +76,13 @@
                   <dt class="col-sm-3 set-in" v-if="history.ccagent">Command</dt>
                   <dd class="col-sm-9 set-in" v-if="history.ccagent">{{ history.ccagent.command }}</dd>
                   <dt class="col-sm-3 set-in" v-if="history.ccagent">Debug Info</dt>
-                  <dd class="col-sm-9 set-in" v-if="history.ccagent">
+                  <dd class="col-sm-9 set-in" v-if="history.ccagent && history.ccagent.debugInfo != null">
                     <p class="no-margin" v-for="line in history.ccagent.debugInfo">{{ line }}</p>
                   </dd>
+                  <dd class="col-sm-9 set-in" v-if="history.ccagent && history.ccagent.debugInfo == null">-</dd>
                   <dt class="col-sm-3 set-in" v-if="history.ccagent">Inputs</dt>
-                  <dd class="col-sm-9 set-in" v-if="history.ccagent && history.ccagent.inputs !== null">
+                  <dd class="col-sm-9 set-in"
+                    v-if="history.ccagent && history.ccagent.inputs !== null && Object.keys(history.ccagent.inputs).length > 0">
                     <table class="table table-bordered">
                       <thead>
                         <tr>
@@ -100,7 +102,9 @@
                       </tbody>
                     </table>
                   </dd>
-                  <dd class="col-sm-9 set-in" v-if="history.ccagent && history.ccagent.inputs == null">-</dd>
+                  <dd class="col-sm-9 set-in"
+                    v-if="history.ccagent && (history.ccagent.inputs == null || Object.keys(history.ccagent.inputs).length == 0)">
+                    -</dd>
                   <dt class="col-sm-3 set-in" v-if="history.ccagent">Outputs</dt>
                   <dd class="col-sm-9 set-in" v-if="history.ccagent && history.ccagent.outputs !== null">
                     <table class="table table-bordered">
