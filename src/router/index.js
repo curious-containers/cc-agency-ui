@@ -3,6 +3,7 @@ import Dashboard from '@/views/Dashboard.vue'
 import Login from '@/views/Login.vue'
 import Experiments from '@/views/Experiments.vue'
 import Experiment from '@/views/Experiment.vue'
+import ExperimentCreate from '@/views/ExperimentCreate.vue'
 import Batches from '@/views/Batches.vue'
 import Batch from '@/views/Batch.vue'
 import store from '@/store'
@@ -36,6 +37,14 @@ const routes = [
     path: '/experiments/:id',
     name: 'Experiment',
     component: Experiment,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/experiment/create',
+    name: 'Create Experiment',
+    component: ExperimentCreate,
     meta: {
       requiresAuth: true
     }
