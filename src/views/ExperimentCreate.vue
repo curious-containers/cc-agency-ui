@@ -160,7 +160,156 @@
                             </h3>
                         </div>
                         <div class="card-body">
-
+                            <div v-for="(input, index) in form.inputs">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">{{ index + 1 }}. Input</label>
+                                    <div class="col-sm-8">
+                                        <i class="fa-solid fa-trash fa-red form-text-align remove-form"
+                                            @click="removeInputForm(index)"></i>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Name</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" v-model="input.name" placeholder="script"
+                                            required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">CLI Type</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" v-model="input.type" required>
+                                            <option :value="className"
+                                                v-for="className in schemaRed.definitions.cli.properties.inputs.patternProperties['^[a-zA-Z0-9_-]+$'].properties.type.enum">
+                                                {{ className }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Class</label>
+                                    <div class="col-sm-8">
+                                        <input type="radio" :id="'radioInputClassFile_' + index" class="form-check-input"
+                                            value="file" v-model="input.class" checked>
+                                        <label class="form-check-label" :for="'radioInputClassFile_' + index">File</label>
+                                        <input type="radio" :id="'radioInputClassDirectory_' + index"
+                                            class="form-check-input" value="directory" v-model="input.class">
+                                        <label class="form-check-label"
+                                            :for="'radioInputClassDirectory_' + index">Directory</label>
+                                        <input type="radio" :id="'radioInputClassString_' + index" class="form-check-input"
+                                            value="string" v-model="input.class">
+                                        <label class="form-check-label"
+                                            :for="'radioInputClassString_' + index">String</label>
+                                        <input type="radio" :id="'radioInputClassNumber_' + index" class="form-check-input"
+                                            value="number" v-model="input.class">
+                                        <label class="form-check-label"
+                                            :for="'radioInputClassNumber_' + index">Number</label>
+                                        <input type="radio" :id="'radioInputClassBoolean_' + index" class="form-check-input"
+                                            value="boolean" v-model="input.class">
+                                        <label class="form-check-label"
+                                            :for="'radioInputClassBoolean_' + index">Boolean</label>
+                                    </div>
+                                </div>
+                                <div class="margin-l-1r" v-if="input.class === 'file' || input.class === 'directory'">
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Connector</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" v-model="input.connector.command"
+                                                placeholder="red-connector-http" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Hostname</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" v-model="input.connector.host"
+                                                placeholder="https://example.com/file" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Authentification</label>
+                                        <div class="col-sm-8">
+                                            <input type="radio" :id="'radioAuthPassword_' + index" class="form-check-input"
+                                                value="password" v-model="input.connector.auth.method" checked>
+                                            <label class="form-check-label"
+                                                :for="'radioAuthPassword_' + index">Password</label>
+                                            <input type="radio" :id="'radioAuthKey_' + index" class="form-check-input"
+                                                value="key" v-model="input.connector.auth.method">
+                                            <label class="form-check-label" :for="'radioAuthKey_' + index">SSH Key</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row" v-if="input.connector.auth.method === 'password'">
+                                        <label class="col-sm-2 col-form-label">Username</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" v-model="input.connector.auth.username"
+                                                required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row" v-if="input.connector.auth.method === 'password'">
+                                        <label class="col-sm-2 col-form-label">Password</label>
+                                        <div class="col-sm-8">
+                                            <input type="password" class="form-control"
+                                                v-model="input.connector.auth.password" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row" v-if="input.connector.auth.method === 'key'">
+                                        <label class="col-sm-2 col-form-label">Private Key</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control"
+                                                v-model="input.connector.auth.privateKey" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row" v-if="input.connector.auth.method === 'key'">
+                                        <label class="col-sm-2 col-form-label">Passphrase</label>
+                                        <div class="col-sm-8">
+                                            <input type="password" class="form-control"
+                                                v-model="input.connector.auth.passphrase">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row"
+                                    v-if="input.class === 'string' || input.class === 'number' || input.class === 'boolean'">
+                                    <label class="col-sm-2 col-form-label">Value</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" v-model="input.value"
+                                            v-if="input.class === 'string'" required>
+                                        <input type="number" class="form-control" v-model="input.value"
+                                            v-if="input.class === 'number'" required>
+                                        <input type="checkbox" class="form-check-input" v-model="input.value"
+                                            v-if="input.class === 'boolean'" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Input Position</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" class="form-control" min="0"
+                                            v-model="input.inputBinding.position">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Prefix</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" v-model="input.inputBinding.prefix">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Seperate</label>
+                                    <div class="col-sm-8">
+                                        <input type="checkbox" class="form-check-input"
+                                            v-model="input.inputBinding.seperate">
+                                    </div>
+                                </div>
+                                <div class="form-group row" v-if="input.inputBinding.seperate">
+                                    <label class="col-sm-2 col-form-label">Item Seperator</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" v-model="input.inputBinding.itemSeperator">
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                            <p class="add-form" @click="addInputForm()">
+                                <i class="fa-solid fa-square-plus fa-xl fa-green icon-text-sep"></i>
+                                Add Input
+                            </p>
                         </div>
                     </div>
 
@@ -186,7 +335,6 @@
                         </div>
                     </div>
                 </div>
-
 
                 <div class="col-lg-12" v-if="!schemaRed">
                     <p>Error: Could not load RED Schema</p>
@@ -230,8 +378,32 @@ export default {
                         count: 1,
                         vendor: undefined,
                         vramMin: undefined
+                    },
+                },
+                inputs: [{
+                    name: undefined,
+                    type: undefined,
+                    class: 'file',
+                    value: undefined,
+                    connector: {
+                        command: undefined,
+                        hostname: undefined,
+                        auth: {
+                            method: 'password',
+                            username: undefined,
+                            password: undefined,
+                            privateKey: undefined,
+                            passphrase: undefined
+                        }
+                    },
+                    inputBinding: {
+                        prefix: undefined,
+                        position: 0,
+                        seperate: false,
+                        itemSeperator: undefined
                     }
-                }
+                }],
+                outputs: []
             },
             schemaRed: undefined,
             schemaContainerEngines: undefined
@@ -261,6 +433,7 @@ export default {
                 this.form.redVersion = this.schemaRed.definitions.redVersion.enum[0]
                 this.form.cli.cwlVersion = this.schemaRed.definitions.cli.properties.cwlVersion.enum[0]
                 this.form.cli.class = this.schemaRed.definitions.cli.properties.class.enum[0]
+                this.form.inputs[0].type = this.schemaRed.definitions.cli.properties.inputs.patternProperties['^[a-zA-Z0-9_-]+$'].properties.type.enum[0]
             }
             if (this.schemaContainerEngines) {
                 this.form.container.engine = Object.keys(this.schemaContainerEngines)[0]
@@ -268,6 +441,34 @@ export default {
                 this.form.container.gpus.vendor = this.schemaContainerEngines[this.form.container.engine].definitions.vendors.enum[0]
                 this.form.container.gpus.vramMin = this.schemaContainerEngines[this.form.container.engine].definitions.ram.minimum
             }
+        },
+        addInputForm() {
+            this.form.inputs.push({
+                name: undefined,
+                type: this.schemaRed.definitions.cli.properties.inputs.patternProperties['^[a-zA-Z0-9_-]+$'].properties.type.enum[0],
+                class: 'file',
+                value: undefined,
+                connector: {
+                    command: undefined,
+                    hostname: undefined,
+                    auth: {
+                        method: 'password',
+                        username: undefined,
+                        password: undefined,
+                        privateKey: undefined,
+                        passphrase: undefined
+                    }
+                },
+                inputBinding: {
+                    prefix: undefined,
+                    position: this.form.inputs.length,
+                    seperate: false,
+                    itemSeperator: undefined
+                }
+            })
+        },
+        removeInputForm(index) {
+            this.form.inputs.splice(index, 1)
         }
     }
 }
@@ -276,7 +477,38 @@ export default {
 <style scoped>
 .form-check-input {
     margin-left: 1rem;
+    margin-top: 0.3rem;
     position: relative;
     vertical-align: middle;
+}
+
+.form-check-label {
+    margin-left: 0.7rem;
+    margin-right: 2rem;
+    margin-top: 0.3rem;
+    position: relative;
+    vertical-align: middle;
+}
+
+.form-text-align {
+    margin-top: 0.3rem;
+    margin-bottom: 0;
+    position: relative;
+    vertical-align: middle;
+}
+
+.add-form {
+    font-weight: 700;
+    margin-left: 0.5rem;
+    cursor: pointer;
+}
+
+.remove-form {
+    margin-right: 0.7rem;
+    cursor: pointer;
+}
+
+.icon-text-sep {
+    margin-right: 0.7rem;
 }
 </style>

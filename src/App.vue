@@ -95,4 +95,16 @@ dd.set-in {
 .no-margin {
   margin: 0 !important;
 }
+
+.fa-red {
+  color: #dc3545;
+}
+
+.fa-green {
+  color: #28a745;
+}
+
+.margin-l-1r {
+  margin-left: 1rem;
+}
 </style>
