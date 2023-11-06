@@ -225,6 +225,13 @@
                                                 placeholder="https://example.com/file" required>
                                         </div>
                                     </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Port</label>
+                                        <div class="col-sm-8">
+                                            <input type="number" class="form-control" min="0" max="65535"
+                                                v-model="input.connector.port">
+                                        </div>
+                                    </div>
                                     <div class="form-group row" v-if="input.class === 'file'">
                                         <label class="col-sm-2 col-form-label">File Path</label>
                                         <div class="col-sm-8">
@@ -253,7 +260,7 @@
                                                 Key</label>
                                         </div>
                                     </div>
-                                    <div class="form-group row" v-if="input.connector.auth.method === 'password'">
+                                    <div class="form-group row">
                                         <label class="col-sm-2 col-form-label">Username</label>
                                         <div class="col-sm-8">
                                             <input type="text" class="form-control" v-model="input.connector.auth.username"
@@ -388,6 +395,13 @@
                                                 placeholder="https://example.com/result" required>
                                         </div>
                                     </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Port</label>
+                                        <div class="col-sm-8">
+                                            <input type="number" class="form-control" min="0" max="65535"
+                                                v-model="output.connector.port">
+                                        </div>
+                                    </div>
                                     <div class="form-group row" v-if="output.class === 'file'">
                                         <label class="col-sm-2 col-form-label">File Path</label>
                                         <div class="col-sm-8">
@@ -416,7 +430,7 @@
                                                 Key</label>
                                         </div>
                                     </div>
-                                    <div class="form-group row" v-if="output.connector.auth.method === 'password'">
+                                    <div class="form-group row">
                                         <label class="col-sm-2 col-form-label">Username</label>
                                         <div class="col-sm-8">
                                             <input type="text" class="form-control" v-model="output.connector.auth.username"
@@ -468,7 +482,7 @@
                             </h3>
                         </div>
                         <div class="card-body">
-
+                            <div id="redEditor" ref="redEditor"></div>
                         </div>
                     </div>
                 </div>
@@ -484,6 +498,7 @@
   
 <script>
 import api from '@/services/api'
+import JSONEditor from 'jsoneditor'
 
 export default {
     name: 'Experiment',
@@ -525,6 +540,7 @@ export default {
                     connector: {
                         command: undefined,
                         hostname: undefined,
+                        port: undefined,
                         auth: {
                             method: 'password',
                             username: undefined,
@@ -548,8 +564,159 @@ export default {
             schemaContainerEngines: undefined
         };
     },
-    mounted() {
-        this.loadSchemas()
+    watch: {
+        form: {
+            handler() {
+                this.updateJsonEditor()
+            },
+            deep: true
+        }
+    },
+    computed: {
+        redJson() {
+            let red = {
+                "redVersion": this.form.redVersion,
+                "cli": {
+                    "cwlVersion": this.form.cli.cwlVersion,
+                    "class": this.form.cli.class,
+                    "baseCommand": this.form.cli.baseCommand,
+                    "inputs": {},
+                    "outputs": {}
+                },
+                "inputs": {},
+                "outputs": {},
+                "container": {
+                    "engine": this.form.container.engine,
+                    "settings": {
+                        "image": {
+                            "url": this.form.container.image.url
+                        },
+                        "ram": this.form.container.ram
+                    }
+                }
+            }
+
+            if (this.form.cli.stdout) {
+                red.cli["stdout"] = this.form.cli.stdout
+            }
+            if (this.form.cli.stderr) {
+                red.cli["stderr"] = this.form.cli.stderr
+            }
+            if (this.form.container.image.auth.enable) {
+                red.container.settings.image["auth"] = {
+                    "username": this.form.container.image.auth.username,
+                    "password": this.form.container.image.auth.password
+                }
+            }
+            if (this.form.container.gpus.enable) {
+                red.container.settings["gpus"] = {
+                    "vendor": this.form.container.gpus.vendor,
+                    "devices": []
+                }
+                for (let i = 0; i < this.form.container.gpus.count; i++) {
+                    red.container.settings.gpus.devices.push({
+                        "vramMin": this.form.container.gpus.vramMin
+                    })
+                }
+            }
+            for (const formInput of this.form.inputs) {
+                if (formInput.class == 'file' || formInput.class == 'directory') {
+                    red.inputs[formInput.name] = {
+                        "class": formInput.class,
+                        "connector": {
+                            "command": formInput.connector.command,
+                            "access": {
+                                "host": formInput.connector.hostname
+                            }
+                        }
+                    }
+                    if (formInput.connector.port) {
+                        red.inputs[formInput.name].connector.access["port"] = formInput.connector.port
+                    }
+                    if (formInput.connector.auth.username) {
+                        red.inputs[formInput.name].connector.access["auth"] = {
+                            "username": formInput.connector.auth.username
+                        }
+                        if (formInput.connector.auth.method == 'password') {
+                            red.inputs[formInput.name].connector.access.auth["password"] = formInput.connector.auth.password
+                        } else if (formInput.connector.auth.method == 'key') {
+                            red.inputs[formInput.name].connector.access.auth["privateKey"] = formInput.connector.auth.privateKey
+                            if (formInput.connector.auth.passphrase) {
+                                red.inputs[formInput.name].connector.access.auth["passphrase"] = formInput.connector.auth.passphrase
+                            }
+                        }
+                    }
+                    if (formInput.class == 'file') {
+                        red.inputs[formInput.name].connector.access["filePath"] = formInput.connector.filePath
+                    }
+                    if (formInput.class == 'directory') {
+                        red.inputs[formInput.name].connector.access["dirPath"] = formInput.connector.dirPath
+                    }
+                } else {
+                    red.inputs[formInput.name] = formInput.value
+                }
+                red.cli.inputs[formInput.name] = {
+                    "type": formInput.type,
+                    "inputBinding": {}
+                }
+                if (formInput.inputBinding.prefix) {
+                    red.cli.inputs[formInput.name].inputBinding["prefix"] = formInput.inputBinding.prefix
+                }
+                if (formInput.inputBinding.position !== undefined && formInput.inputBinding.position !== "") {
+                    red.cli.inputs[formInput.name].inputBinding["position"] = formInput.inputBinding.position
+                }
+                if (formInput.inputBinding.seperate) {
+                    red.cli.inputs[formInput.name].inputBinding["seperate"] = formInput.inputBinding.seperate
+                }
+                if (formInput.inputBinding.itemSeperator) {
+                    red.cli.inputs[formInput.name].inputBinding["itemSeperator"] = formInput.inputBinding.itemSeperator
+                }
+            }
+            for (const formOutput of this.form.outputs) {
+                red.outputs[formOutput.name] = {
+                    "class": formOutput.class,
+                    "connector": {
+                        "command": formOutput.connector.command,
+                        "access": {
+                            "host": formOutput.connector.hostname
+                        }
+                    }
+                }
+                if (formOutput.connector.port) {
+                    red.inputs[formOutput.name].connector.access["port"] = formOutput.connector.port
+                }
+                if (formOutput.connector.auth.username) {
+                    red.outputs[formOutput.name].connector.access["auth"] = {
+                        "username": formOutput.connector.auth.username
+                    }
+                    if (formOutput.connector.auth.method == 'password') {
+                        red.outputs[formOutput.name].connector.access.auth["password"] = formOutput.connector.auth.password
+                    } else if (formOutput.connector.auth.method == 'key') {
+                        red.outputs[formOutput.name].connector.access.auth["privateKey"] = formOutput.connector.auth.privateKey
+                        if (formOutput.connector.auth.passphrase) {
+                            red.outputs[formOutput.name].connector.access.auth["passphrase"] = formOutput.connector.auth.passphrase
+                        }
+                    }
+                }
+                if (formOutput.class == 'file') {
+                    red.outputs[formOutput.name].connector.access["filePath"] = formOutput.connector.filePath
+                }
+                if (formOutput.class == 'directory') {
+                    red.outputs[formOutput.name].connector.access["dirPath"] = formOutput.connector.dirPath
+                }
+                red.cli.outputs[formOutput.name] = {
+                    "type": formOutput.type,
+                    "outputBinding": {
+                        "glob": formOutput.glob
+                    }
+                }
+            }
+            return red
+        }
+    },
+    async mounted() {
+        await this.loadSchemas()
+        this.createJsonEditor()
     },
     methods: {
         async loadSchemas() {
@@ -590,6 +757,7 @@ export default {
                 connector: {
                     command: undefined,
                     hostname: undefined,
+                    port: undefined,
                     auth: {
                         method: 'password',
                         username: undefined,
@@ -617,6 +785,7 @@ export default {
                 connector: {
                     command: undefined,
                     hostname: undefined,
+                    port: undefined,
                     auth: {
                         method: 'password',
                         username: undefined,
@@ -646,6 +815,19 @@ export default {
                     }
                 }
                 return outputsTypes
+            }
+        },
+        createJsonEditor() {
+            const options = {
+                enableSort: false,
+                enableTransform: false
+            }
+            this.editor = new JSONEditor(this.$refs.redEditor, options)
+            this.editor.set(this.redJson)
+        },
+        updateJsonEditor() {
+            if (this.editor) {
+                this.editor.update(this.redJson)
             }
         }
     }
