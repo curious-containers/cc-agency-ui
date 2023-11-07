@@ -76,7 +76,7 @@
             </div>
           </div>
 
-          <div class="card">
+          <div class="card" v-if="experiment.execution">
             <div class="card-header">
               <h3 class="card-title">
                 Execution
