@@ -96,11 +96,11 @@ dd.set-in {
   margin: 0 !important;
 }
 
-.fa-red {
+.cl-red {
   color: #dc3545;
 }
 
-.fa-green {
+.cl-green {
   color: #28a745;
 }
 

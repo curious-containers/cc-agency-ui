@@ -168,7 +168,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">{{ index + 1 }}. Input</label>
                                     <div class="col-sm-8">
-                                        <i class="fa-solid fa-trash fa-red form-text-align remove-form"
+                                        <i class="fa-solid fa-trash cl-red form-text-align remove-form"
                                             @click="removeInputForm(index)"></i>
                                     </div>
                                 </div>
@@ -336,7 +336,7 @@
                                 <hr>
                             </div>
                             <p class="add-form" @click="addInputForm()">
-                                <i class="fa-solid fa-square-plus fa-xl fa-green icon-text-sep"></i>
+                                <i class="fa-solid fa-square-plus fa-xl cl-green icon-text-sep"></i>
                                 Add Input
                             </p>
                         </div>
@@ -353,7 +353,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">{{ index + 1 }}. Output</label>
                                     <div class="col-sm-8">
-                                        <i class="fa-solid fa-trash fa-red form-text-align remove-form"
+                                        <i class="fa-solid fa-trash cl-red form-text-align remove-form"
                                             @click="removeOutputForm(index)"></i>
                                     </div>
                                 </div>
@@ -486,7 +486,7 @@
                                 <hr>
                             </div>
                             <p class="add-form" @click="addOutputForm()">
-                                <i class="fa-solid fa-square-plus fa-xl fa-green icon-text-sep"></i>
+                                <i class="fa-solid fa-square-plus fa-xl cl-green icon-text-sep"></i>
                                 Add Output
                             </p>
                         </div>
@@ -502,10 +502,36 @@
                             <div id="redEditor" ref="redEditor"></div>
                         </div>
                     </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <button type="button" class="btn btn-block btn-success font-weight-bold"
+                                    @click="startExperiment()">Start Experiment
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-lg-12" v-if="!schemaRed">
                     <p>Error: Could not load RED Schema</p>
+                </div>
+
+                <div class="modal fade" id="errModal">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Error</h5>
+                                <button type="button" class="close" data-dismiss="modal">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                {{ errorMessage }}
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -578,7 +604,8 @@ export default {
                 outputs: []
             },
             schemaRed: undefined,
-            schemaContainerEngines: undefined
+            schemaContainerEngines: undefined,
+            errorMessage: undefined
         };
     },
     watch: {
@@ -846,6 +873,18 @@ export default {
             if (this.editor) {
                 this.editor.update(this.redJson)
             }
+        },
+        startExperiment() {
+            console.log(this.redJson)
+            api.post('/red', this.redJson).then(res => {
+                console.log(res)
+            }).catch(err => {
+                this.errorMessage = err.response.data
+                this.showErrModal();
+            })
+        },
+        showErrModal() {
+            $("#errModal").modal()
         }
     }
 }
