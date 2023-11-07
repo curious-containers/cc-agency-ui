@@ -94,17 +94,21 @@
                                         v-model="form.container.image.auth.enable">
                                 </div>
                             </div>
-                            <div class="form-group row" v-if="form.container.image.auth.enable">
-                                <label class="col-sm-2 col-form-label">Image Username</label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" v-model="form.container.image.auth.username">
+
+                            <div class="margin-l-1r">
+                                <div class="form-group row" v-if="form.container.image.auth.enable">
+                                    <label class="col-sm-2 col-form-label">Username</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control"
+                                            v-model="form.container.image.auth.username">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group row" v-if="form.container.image.auth.enable">
-                                <label class="col-sm-2 col-form-label">Image Password</label>
-                                <div class="col-sm-8">
-                                    <input type="password" class="form-control"
-                                        v-model="form.container.image.auth.password">
+                                <div class="form-group row" v-if="form.container.image.auth.enable">
+                                    <label class="col-sm-2 col-form-label">Password</label>
+                                    <div class="col-sm-8">
+                                        <input type="password" class="form-control"
+                                            v-model="form.container.image.auth.password">
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -190,10 +194,10 @@
                                     <label class="col-sm-2 col-form-label">Class</label>
                                     <div class="col-sm-8">
                                         <input type="radio" :id="'radioInputClassFile_' + index" class="form-check-input"
-                                            value="file" v-model="input.class" checked>
+                                            value="File" v-model="input.class" checked>
                                         <label class="form-check-label" :for="'radioInputClassFile_' + index">File</label>
                                         <input type="radio" :id="'radioInputClassDirectory_' + index"
-                                            class="form-check-input" value="directory" v-model="input.class">
+                                            class="form-check-input" value="Directory" v-model="input.class">
                                         <label class="form-check-label"
                                             :for="'radioInputClassDirectory_' + index">Directory</label>
                                         <input type="radio" :id="'radioInputClassString_' + index" class="form-check-input"
@@ -210,7 +214,7 @@
                                             :for="'radioInputClassBoolean_' + index">Boolean</label>
                                     </div>
                                 </div>
-                                <div class="margin-l-1r" v-if="input.class === 'file' || input.class === 'directory'">
+                                <div class="margin-l-1r" v-if="input.class === 'File' || input.class === 'Directory'">
                                     <div class="form-group row">
                                         <label class="col-sm-2 col-form-label">Connector</label>
                                         <div class="col-sm-8">
@@ -232,14 +236,14 @@
                                                 v-model="input.connector.port">
                                         </div>
                                     </div>
-                                    <div class="form-group row" v-if="input.class === 'file'">
+                                    <div class="form-group row" v-if="input.class === 'File'">
                                         <label class="col-sm-2 col-form-label">File Path</label>
                                         <div class="col-sm-8">
                                             <input type="text" class="form-control" v-model="input.connector.filePath"
                                                 placeholder="/home/username/files/data.csv">
                                         </div>
                                     </div>
-                                    <div class="form-group row" v-if="input.class === 'directory'">
+                                    <div class="form-group row" v-if="input.class === 'Directory'">
                                         <label class="col-sm-2 col-form-label">Directory Path</label>
                                         <div class="col-sm-8">
                                             <input type="text" class="form-control" v-model="input.connector.dirPath"
@@ -260,32 +264,34 @@
                                                 Key</label>
                                         </div>
                                     </div>
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label">Username</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control" v-model="input.connector.auth.username"
-                                                required>
+                                    <div class="margin-l-1r">
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Username</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control"
+                                                    v-model="input.connector.auth.username" required>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group row" v-if="input.connector.auth.method === 'password'">
-                                        <label class="col-sm-2 col-form-label">Password</label>
-                                        <div class="col-sm-8">
-                                            <input type="password" class="form-control"
-                                                v-model="input.connector.auth.password" required>
+                                        <div class="form-group row" v-if="input.connector.auth.method === 'password'">
+                                            <label class="col-sm-2 col-form-label">Password</label>
+                                            <div class="col-sm-8">
+                                                <input type="password" class="form-control"
+                                                    v-model="input.connector.auth.password" required>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group row" v-if="input.connector.auth.method === 'key'">
-                                        <label class="col-sm-2 col-form-label">Private Key</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control"
-                                                v-model="input.connector.auth.privateKey" required>
+                                        <div class="form-group row" v-if="input.connector.auth.method === 'key'">
+                                            <label class="col-sm-2 col-form-label">Private Key</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control"
+                                                    v-model="input.connector.auth.privateKey" required>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group row" v-if="input.connector.auth.method === 'key'">
-                                        <label class="col-sm-2 col-form-label">Passphrase</label>
-                                        <div class="col-sm-8">
-                                            <input type="password" class="form-control"
-                                                v-model="input.connector.auth.passphrase">
+                                        <div class="form-group row" v-if="input.connector.auth.method === 'key'">
+                                            <label class="col-sm-2 col-form-label">Passphrase</label>
+                                            <div class="col-sm-8">
+                                                <input type="password" class="form-control"
+                                                    v-model="input.connector.auth.passphrase">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -372,12 +378,20 @@
                                     <label class="col-sm-2 col-form-label">Class</label>
                                     <div class="col-sm-8">
                                         <input type="radio" :id="'radioOutputClassFile_' + index" class="form-check-input"
-                                            value="file" v-model="output.class" checked>
+                                            value="File" v-model="output.class" checked>
                                         <label class="form-check-label" :for="'radioOutputClassFile_' + index">File</label>
                                         <input type="radio" :id="'radioOutputClassDirectory_' + index"
-                                            class="form-check-input" value="directory" v-model="output.class">
+                                            class="form-check-input" value="Directory" v-model="output.class">
                                         <label class="form-check-label"
                                             :for="'radioOutputClassDirectory_' + index">Directory</label>
+                                        <input type="radio" :id="'radioOutputClassStdout_' + index" class="form-check-input"
+                                            value="stdout" v-model="output.class">
+                                        <label class="form-check-label"
+                                            :for="'radioOutputClassStdout_' + index">Stdout</label>
+                                        <input type="radio" :id="'radioOutputClassStderr_' + index" class="form-check-input"
+                                            value="stderr" v-model="output.class">
+                                        <label class="form-check-label"
+                                            :for="'radioOutputClassStderr_' + index">Stderr</label>
                                     </div>
                                 </div>
                                 <div class="margin-l-1r">
@@ -402,14 +416,15 @@
                                                 v-model="output.connector.port">
                                         </div>
                                     </div>
-                                    <div class="form-group row" v-if="output.class === 'file'">
+                                    <div class="form-group row"
+                                        v-if="output.class === 'File' || output.class === 'stdout' || output.class === 'stderr'">
                                         <label class="col-sm-2 col-form-label">File Path</label>
                                         <div class="col-sm-8">
                                             <input type="text" class="form-control" v-model="output.connector.filePath"
                                                 placeholder="/home/username/files/data.csv">
                                         </div>
                                     </div>
-                                    <div class="form-group row" v-if="output.class === 'directory'">
+                                    <div class="form-group row" v-if="output.class === 'Directory'">
                                         <label class="col-sm-2 col-form-label">Directory Path</label>
                                         <div class="col-sm-8">
                                             <input type="text" class="form-control" v-model="output.connector.dirPath"
@@ -430,32 +445,34 @@
                                                 Key</label>
                                         </div>
                                     </div>
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label">Username</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control" v-model="output.connector.auth.username"
-                                                required>
+                                    <div class="margin-l-1r">
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Username</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control"
+                                                    v-model="output.connector.auth.username" required>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group row" v-if="output.connector.auth.method === 'password'">
-                                        <label class="col-sm-2 col-form-label">Password</label>
-                                        <div class="col-sm-8">
-                                            <input type="password" class="form-control"
-                                                v-model="output.connector.auth.password" required>
+                                        <div class="form-group row" v-if="output.connector.auth.method === 'password'">
+                                            <label class="col-sm-2 col-form-label">Password</label>
+                                            <div class="col-sm-8">
+                                                <input type="password" class="form-control"
+                                                    v-model="output.connector.auth.password" required>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group row" v-if="output.connector.auth.method === 'key'">
-                                        <label class="col-sm-2 col-form-label">Private Key</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control"
-                                                v-model="output.connector.auth.privateKey" required>
+                                        <div class="form-group row" v-if="output.connector.auth.method === 'key'">
+                                            <label class="col-sm-2 col-form-label">Private Key</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control"
+                                                    v-model="output.connector.auth.privateKey" required>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group row" v-if="output.connector.auth.method === 'key'">
-                                        <label class="col-sm-2 col-form-label">Passphrase</label>
-                                        <div class="col-sm-8">
-                                            <input type="password" class="form-control"
-                                                v-model="output.connector.auth.passphrase">
+                                        <div class="form-group row" v-if="output.connector.auth.method === 'key'">
+                                            <label class="col-sm-2 col-form-label">Passphrase</label>
+                                            <div class="col-sm-8">
+                                                <input type="password" class="form-control"
+                                                    v-model="output.connector.auth.passphrase">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -535,11 +552,11 @@ export default {
                 inputs: [{
                     name: undefined,
                     type: undefined,
-                    class: 'file',
+                    class: 'File',
                     value: undefined,
                     connector: {
                         command: undefined,
-                        hostname: undefined,
+                        host: undefined,
                         port: undefined,
                         auth: {
                             method: 'password',
@@ -620,13 +637,13 @@ export default {
                 }
             }
             for (const formInput of this.form.inputs) {
-                if (formInput.class == 'file' || formInput.class == 'directory') {
+                if (formInput.class == 'File' || formInput.class == 'Directory') {
                     red.inputs[formInput.name] = {
                         "class": formInput.class,
                         "connector": {
                             "command": formInput.connector.command,
                             "access": {
-                                "host": formInput.connector.hostname
+                                "host": formInput.connector.host
                             }
                         }
                     }
@@ -646,10 +663,10 @@ export default {
                             }
                         }
                     }
-                    if (formInput.class == 'file') {
+                    if (formInput.class == 'File') {
                         red.inputs[formInput.name].connector.access["filePath"] = formInput.connector.filePath
                     }
-                    if (formInput.class == 'directory') {
+                    if (formInput.class == 'Directory') {
                         red.inputs[formInput.name].connector.access["dirPath"] = formInput.connector.dirPath
                     }
                 } else {
@@ -678,12 +695,12 @@ export default {
                     "connector": {
                         "command": formOutput.connector.command,
                         "access": {
-                            "host": formOutput.connector.hostname
+                            "host": formOutput.connector.host
                         }
                     }
                 }
                 if (formOutput.connector.port) {
-                    red.inputs[formOutput.name].connector.access["port"] = formOutput.connector.port
+                    red.outputs[formOutput.name].connector.access["port"] = formOutput.connector.port
                 }
                 if (formOutput.connector.auth.username) {
                     red.outputs[formOutput.name].connector.access["auth"] = {
@@ -698,10 +715,10 @@ export default {
                         }
                     }
                 }
-                if (formOutput.class == 'file') {
+                if (formOutput.class == 'File') {
                     red.outputs[formOutput.name].connector.access["filePath"] = formOutput.connector.filePath
                 }
-                if (formOutput.class == 'directory') {
+                if (formOutput.class == 'Directory') {
                     red.outputs[formOutput.name].connector.access["dirPath"] = formOutput.connector.dirPath
                 }
                 red.cli.outputs[formOutput.name] = {
@@ -752,11 +769,11 @@ export default {
             this.form.inputs.push({
                 name: undefined,
                 type: this.schemaRed.definitions.cli.properties.inputs.patternProperties['^[a-zA-Z0-9_-]+$'].properties.type.enum[0],
-                class: 'file',
+                class: 'File',
                 value: undefined,
                 connector: {
                     command: undefined,
-                    hostname: undefined,
+                    host: undefined,
                     port: undefined,
                     auth: {
                         method: 'password',
@@ -781,10 +798,10 @@ export default {
                 name: undefined,
                 type: this.getOutputTypes()[0],
                 types: this.getOutputTypes(),
-                class: 'file',
+                class: 'File',
                 connector: {
                     command: undefined,
-                    hostname: undefined,
+                    host: undefined,
                     port: undefined,
                     auth: {
                         method: 'password',
