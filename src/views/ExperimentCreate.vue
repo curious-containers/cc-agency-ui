@@ -518,6 +518,32 @@
                     <p>Error: Could not load RED Schema</p>
                 </div>
 
+                <div class="modal fade" id="succModal">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Experiment started</h5>
+                                <button type="button" class="close" data-dismiss="modal">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body row row-sp-ev" v-if="experimentId">
+                                <router-link :to="{ name: 'Experiment', params: { id: experimentId } }">
+                                    <div class="card modal-link" data-dismiss="modal">
+                                        <div class="card-body">
+                                            Show Experiment
+                                        </div>
+                                    </div>
+                                </router-link>
+                                <div class="card modal-link" data-dismiss="modal">
+                                    <div class="card-body">
+                                        Create more Experiments
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="modal fade" id="errModal">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
                         <div class="modal-content">
@@ -544,7 +570,7 @@ import api from '@/services/api'
 import JSONEditor from 'jsoneditor'
 
 export default {
-    name: 'Experiment',
+    name: 'ExperimentCreate',
     data() {
         return {
             form: {
@@ -605,8 +631,9 @@ export default {
             },
             schemaRed: undefined,
             schemaContainerEngines: undefined,
-            errorMessage: undefined
-        };
+            errorMessage: undefined,
+            experimentId: undefined
+        }
     },
     watch: {
         form: {
@@ -874,14 +901,22 @@ export default {
                 this.editor.update(this.redJson)
             }
         },
+        getRedFromJsonEditor() {
+            return this.editor.get()
+        },
         startExperiment() {
-            console.log(this.redJson)
-            api.post('/red', this.redJson).then(res => {
+            api.post('/red', this.getRedFromJsonEditor()).then(res => {
                 console.log(res)
+                this.experimentId = res.data.experimentId
+                this.showSuccModal()
             }).catch(err => {
+                console.log(err)
                 this.errorMessage = err.response.data
                 this.showErrModal();
             })
+        },
+        showSuccModal() {
+            $("#succModal").modal()
         },
         showErrModal() {
             $("#errModal").modal()
@@ -926,5 +961,14 @@ export default {
 
 .icon-text-sep {
     margin-right: 0.7rem;
+}
+
+.modal-link {
+    cursor: pointer;
+    color: #212529;
+}
+
+.row-sp-ev {
+    justify-content: space-evenly;
 }
 </style>
