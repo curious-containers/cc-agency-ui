@@ -48,12 +48,12 @@
           </div>
         </div>
       </div>
-      <div class="row">
 
+      <div class="row mt-4">
         <div class="col-lg-6">
           <router-link :to="{ name: 'Create Experiment' }">
             <div class="card">
-              <div class="card-body">
+              <div class="card-body dash-card">
                 Start new Experiment
               </div>
             </div>
@@ -62,7 +62,7 @@
         <div class="col-lg-6">
           <router-link :to="{ name: 'Experiments' }">
             <div class="card">
-              <div class="card-body">
+              <div class="card-body dash-card">
                 Show Experiments
               </div>
             </div>
@@ -71,35 +71,23 @@
         <div class="col-lg-6">
           <router-link :to="{ name: 'Batches' }">
             <div class="card">
-              <div class="card-body">
+              <div class="card-body dash-card">
                 Show Batches
               </div>
             </div>
           </router-link>
         </div>
         <div class="col-lg-6">
-          <div class="card">
-            <div class="card-body">
-              Connector
+          <router-link :to="{ name: 'Nodes' }">
+            <div class="card">
+              <div class="card-body dash-card">
+                Show Nodes
+              </div>
             </div>
-          </div>
+          </router-link>
         </div>
-        <div class="col-lg-6">
-          <div class="card">
-            <div class="card-body">
-              Images
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-6">
-          <div class="card">
-            <div class="card-body">
-              Cloud
-            </div>
-          </div>
-        </div>
-
       </div>
+
     </div>
   </section>
 </template>
@@ -153,3 +141,14 @@ export default {
   }
 }
 </script>
+
+<style>
+.dash-card {
+  color: #2C3E50;
+}
+
+.dash-card:hover {
+  font-weight: 700;
+  background-color: #fafafa;
+}
+</style>
