@@ -101,7 +101,9 @@
                     :class="{ 'bg-success': node.state == 'online', 'bg-danger': node.state != 'online' }">
                     {{ node.state == 'online' ? 'up' : 'down' }}
                   </span>
-                  <span class="space-left small text-muted">{{ formatDate(node.history[0].time) }}</span>
+                  <span class="space-left small text-muted" v-if="node.history.length > 0">{{
+                    formatDate(node.history[node.history.length - 1].time)
+                  }}</span>
                 </span>
               </span>
               <span class="info-box-text">
