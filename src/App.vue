@@ -70,11 +70,13 @@ nav a.router-link-exact-active {
   background-color: #007bff;
 }
 
-.badge.succeeded {
+.badge.succeeded,
+.badge.online {
   background-color: #28a745;
 }
 
-.badge.failed {
+.badge.failed,
+.badge.offline {
   background-color: #dc3545;
 }
 
