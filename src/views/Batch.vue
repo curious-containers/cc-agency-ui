@@ -56,7 +56,7 @@
               <div class="row">
                 <div class="ml-2">
                   <div class="red-link" :class="{ 'disabled': isCancelled }" @click="cancelExperiment()">
-                    <i class="fa fa-ban space-right"></i>Cancel Experiment
+                    <i class="fa fa-ban space-right"></i>Cancel Batch
                   </div>
                 </div>
                 <div class="ml-4">
