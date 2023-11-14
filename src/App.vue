@@ -109,4 +109,20 @@ dd.set-in {
 .margin-l-1r {
   margin-left: 1rem;
 }
+
+.red-link {
+  color: #dc3545;
+  cursor: pointer;
+}
+
+.red-link:hover {
+  color: #8b0000;
+  cursor: pointer;
+}
+
+a.disabled,
+.red-link.disabled {
+  color: gray;
+  pointer-events: none;
+}
 </style>

@@ -6,6 +6,8 @@ import Experiment from '@/views/Experiment.vue'
 import ExperimentCreate from '@/views/ExperimentCreate.vue'
 import Batches from '@/views/Batches.vue'
 import Batch from '@/views/Batch.vue'
+import Stdout from '@/views/Stdout.vue'
+import Stderr from '@/views/Stderr.vue'
 import Nodes from '@/views/Nodes.vue'
 import store from '@/store'
 
@@ -62,6 +64,22 @@ const routes = [
     path: '/batches/:id',
     name: 'Batch',
     component: Batch,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/batches/:id/stdout',
+    name: 'Batch Stdout',
+    component: Stdout,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/batches/:id/stderr',
+    name: 'Batch Stderr',
+    component: Stderr,
     meta: {
       requiresAuth: true
     }

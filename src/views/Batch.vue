@@ -52,6 +52,25 @@
                 <dd class="col-sm-9">{{ batch.cliStdout }}</dd>
               </dl>
             </div>
+            <div class="card-footer">
+              <div class="row">
+                <div class="ml-2">
+                  <div class="red-link" :class="{ 'disabled': isCancelled }" @click="cancelExperiment()">
+                    <i class="fa fa-ban space-right"></i>Cancel Experiment
+                  </div>
+                </div>
+                <div class="ml-4">
+                  <router-link :to="{ name: 'Batch Stdout', params: { id: batch._id } }"
+                    :class="{ 'disabled': hasStdout }">
+                    <i class="fa fa-file-lines space-right"></i>Stdout</router-link>
+                </div>
+                <div class="ml-4">
+                  <router-link :to="{ name: 'Batch Stderr', params: { id: batch._id } }"
+                    :class="{ 'disabled': hasStderr }">
+                    <i class="fa fa-file-circle-exclamation space-right"></i>Stderr</router-link>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="card">
@@ -255,6 +274,20 @@ export default {
   mounted() {
     this.loadBatchData()
   },
+  computed: {
+    isCancelled() {
+      if (this.batch) {
+        return this.batch.state == 'cancelled' || this.batch.state == 'succeeded' || this.batch.state == 'failed'
+      }
+      return false
+    },
+    hasStdout() {
+      return !(this.batch.usedSpecifiedStdout || this.batch.state == 'failed')
+    },
+    hasStderr() {
+      return !(this.batch.usedSpecifiedStderr || this.batch.state == 'failed')
+    }
+  },
   methods: {
     loadBatchData() {
       api.get('/batches/' + this.$route.params.id).then(res => {
@@ -263,9 +296,16 @@ export default {
         console.log(err)
       })
     },
+    cancelExperiment() {
+      api.delete('/batches/' + this.$route.params.id).then(res => {
+        this.batch = res.data
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     formatDate(millis) {
       let date = new Date(millis * 1000)
-      return moment(date).format('YYYY-MM-DD hh:mm:ss')
+      return moment(date).format('YYYY-MM-DD HH:mm:ss')
     }
   }
 }
