@@ -75,7 +75,7 @@ export default {
     },
     formatDate(millis) {
       let date = new Date(millis * 1000)
-      return moment(date).format('YYYY-MM-DD hh:mm:ss')
+      return moment(date).format('YYYY-MM-DD HH:mm:ss')
     }
   }
 }
