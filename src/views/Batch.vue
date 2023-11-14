@@ -12,44 +12,44 @@
             </div>
             <div class="card-body">
               <dl class="row">
-                <dt class="col-sm-4">ID</dt>
-                <dd class="col-sm-8">{{ batch._id }}</dd>
-                <dt class="col-sm-4">Experiment ID</dt>
-                <dd class="col-sm-8">
+                <dt class="col-sm-3">ID</dt>
+                <dd class="col-sm-9">{{ batch._id }}</dd>
+                <dt class="col-sm-3">Experiment ID</dt>
+                <dd class="col-sm-9">
                   <router-link :to="{ name: 'Experiment', params: { id: batch.experimentId } }">
                     {{ batch.experimentId }}
                   </router-link>
                 </dd>
-                <dt class="col-sm-4">Status</dt>
-                <dd class="col-sm-8">
+                <dt class="col-sm-3">Status</dt>
+                <dd class="col-sm-9">
                   <span class="badge badge-pill" :class="batch.state">{{ batch.state }}</span>
                 </dd>
-                <dt class="col-sm-4">Registration Time</dt>
-                <dd class="col-sm-8">{{ formatDate(batch.registrationTime) }}</dd>
-                <dt class="col-sm-4">Username</dt>
-                <dd class="col-sm-8">{{ batch.username }}</dd>
-                <dt class="col-sm-4">Node</dt>
-                <dd class="col-sm-8">{{ batch.node }}</dd>
-                <dt class="col-sm-4">Batches List Index</dt>
-                <dd class="col-sm-8">{{ batch.batchesListIndex }}</dd>
-                <dt class="col-sm-4">Attempts</dt>
-                <dd class="col-sm-8">{{ batch.attempts }}</dd>
-                <dt class="col-sm-4">Mount</dt>
-                <dd class="col-sm-8">{{ batch.mount }}</dd>
-                <dt class="col-sm-4">Notifications sent</dt>
-                <dd class="col-sm-8">{{ batch.notificationsSent }}</dd>
-                <dt class="col-sm-4">Protected keys voided</dt>
-                <dd class="col-sm-8">{{ batch.protectedKeysVoided }}</dd>
-                <dt class="col-sm-4" v-if="batch.usedGPUs">GPUs</dt>
-                <dd class="col-sm-8" v-if="batch.usedGPUs">{{ batch.usedGPUs }}</dd>
-                <dt class="col-sm-4">Used specified Stderr</dt>
-                <dd class="col-sm-8">{{ batch.usedSpecifiedStderr }}</dd>
-                <dt class="col-sm-4">Used specified Stdout</dt>
-                <dd class="col-sm-8">{{ batch.usedSpecifiedStdout }}</dd>
-                <dt class="col-sm-4">CLI Stderr</dt>
-                <dd class="col-sm-8">{{ batch.cliStderr }}</dd>
-                <dt class="col-sm-4">CLI Stdout</dt>
-                <dd class="col-sm-8">{{ batch.cliStdout }}</dd>
+                <dt class="col-sm-3">Registration Time</dt>
+                <dd class="col-sm-9">{{ formatDate(batch.registrationTime) }}</dd>
+                <dt class="col-sm-3">Username</dt>
+                <dd class="col-sm-9">{{ batch.username }}</dd>
+                <dt class="col-sm-3">Node</dt>
+                <dd class="col-sm-9">{{ batch.node }}</dd>
+                <dt class="col-sm-3">Batches List Index</dt>
+                <dd class="col-sm-9">{{ batch.batchesListIndex }}</dd>
+                <dt class="col-sm-3">Attempts</dt>
+                <dd class="col-sm-9">{{ batch.attempts }}</dd>
+                <dt class="col-sm-3">Mount</dt>
+                <dd class="col-sm-9">{{ batch.mount }}</dd>
+                <dt class="col-sm-3">Notifications sent</dt>
+                <dd class="col-sm-9">{{ batch.notificationsSent }}</dd>
+                <dt class="col-sm-3">Protected keys voided</dt>
+                <dd class="col-sm-9">{{ batch.protectedKeysVoided }}</dd>
+                <dt class="col-sm-3" v-if="batch.usedGPUs">GPUs</dt>
+                <dd class="col-sm-9" v-if="batch.usedGPUs">{{ batch.usedGPUs }}</dd>
+                <dt class="col-sm-3">Used specified Stderr</dt>
+                <dd class="col-sm-9">{{ batch.usedSpecifiedStderr }}</dd>
+                <dt class="col-sm-3">Used specified Stdout</dt>
+                <dd class="col-sm-9">{{ batch.usedSpecifiedStdout }}</dd>
+                <dt class="col-sm-3">CLI Stderr</dt>
+                <dd class="col-sm-9">{{ batch.cliStderr }}</dd>
+                <dt class="col-sm-3">CLI Stdout</dt>
+                <dd class="col-sm-9">{{ batch.cliStdout }}</dd>
               </dl>
             </div>
           </div>
@@ -214,7 +214,7 @@
               </h3>
             </div>
             <div class="card-body">
-              <div v-for="( output, key ) in  batch.outputs ">
+              <div v-for="( output, key ) in  batch.outputs" v-if="Object.keys(batch.outputs).length > 0">
                 <dl class="row">
                   <dt class="col-sm-3">Basename</dt>
                   <dd class="col-sm-9">{{ key }}</dd>
@@ -227,6 +227,7 @@
                 </dl>
                 <hr>
               </div>
+              <div v-if="Object.keys(batch.outputs).length == 0">No Outputs defined.</div>
             </div>
           </div>
 

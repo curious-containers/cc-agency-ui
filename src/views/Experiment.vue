@@ -46,7 +46,9 @@
                 </dd>
                 <dt class="col-sm-4">outputs</dt>
                 <dd class="col-sm-8">
-                  <CLIOutputsTable :outputs="experiment.cli.outputs" />
+                  <CLIOutputsTable :outputs="experiment.cli.outputs"
+                    v-if="Object.keys(experiment.cli.outputs).length > 0" />
+                  <div v-if="Object.keys(experiment.cli.outputs).length == 0">-</div>
                 </dd>
                 <dt class="col-sm-4" v-if="experiment.cli.stdout">stdout</dt>
                 <dd class="col-sm-8" v-if="experiment.cli.stdout">{{ experiment.cli.stdout }}</dd>
