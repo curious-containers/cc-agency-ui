@@ -47,7 +47,7 @@ export default {
       username: '',
       password: '',
       isLoginSuccessful: undefined
-    };
+    }
   },
   methods: {
     async handleLogin() {
