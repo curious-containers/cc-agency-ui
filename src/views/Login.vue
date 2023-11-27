@@ -30,6 +30,10 @@
         </div>
       </div>
     </div>
+
+    <div class="mt-3" v-if="isLoginSuccessful === false">
+      Your Username or Password is incorrect.
+    </div>
   </div>
 </template>
 
@@ -41,12 +45,17 @@ export default {
   data() {
     return {
       username: '',
-      password: ''
+      password: '',
+      isLoginSuccessful: undefined
     };
   },
   methods: {
-    handleLogin() {
-      AuthService.login(this.username, this.password)
+    async handleLogin() {
+      this.isLoginSuccessful = await AuthService.login(this.username, this.password)
+      if (!this.isLoginSuccessful) {
+        this.username = ''
+        this.password = ''
+      }
     }
   }
 }
