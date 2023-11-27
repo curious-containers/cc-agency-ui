@@ -26,6 +26,26 @@
             </div>
           </div>
 
+          <div class="card" v-if="batches">
+            <div class="card-header">
+              <h3 class="card-title">
+                Batches
+              </h3>
+            </div>
+            <div class="card-body">
+              <dl class="row" v-for="batch in batches">
+                <dt class="col-sm-4">
+                  <router-link :to="{ name: 'Batch', params: { id: batch._id } }">
+                    {{ batch.experimentId }}
+                  </router-link>
+                </dt>
+                <dd class="col-sm-8">
+                  <span class="badge badge-pill" :class="batch.state">{{ batch.state }}</span>
+                </dd>
+              </dl>
+            </div>
+          </div>
+
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">
@@ -120,16 +140,25 @@ export default {
   },
   data() {
     return {
-      experiment: undefined
+      experiment: undefined,
+      batches: []
     };
   },
   mounted() {
     this.loadExperimentData()
+    this.loadExperimentBatches()
   },
   methods: {
     loadExperimentData() {
       api.get('/experiments/' + this.$route.params.id).then(res => {
         this.experiment = res.data
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    loadExperimentBatches() {
+      api.get('/batches?experimentId=' + this.$route.params.id).then(res => {
+        this.batches = res.data
       }).catch(err => {
         console.log(err)
       })
