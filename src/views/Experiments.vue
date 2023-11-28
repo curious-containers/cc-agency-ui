@@ -42,12 +42,14 @@ export default {
       dataTable: undefined
     };
   },
-  async mounted() {
+  mounted() {
     this.loadExperimentsData()
+  },
+  updated() {
     this.createDataTable()
   },
   methods: {
-    async loadExperimentsData() {
+    loadExperimentsData() {
       api.get('/experiments').then(res => {
         this.experiments = res.data
       }).catch(err => {
