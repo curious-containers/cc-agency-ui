@@ -32,7 +32,7 @@
 
 <script>
 import api from '@/services/api'
-import moment from 'moment';
+import shared from '@/services/shared'
 
 export default {
   name: 'Experiments',
@@ -42,14 +42,12 @@ export default {
       dataTable: undefined
     };
   },
-  mounted() {
+  async mounted() {
     this.loadExperimentsData()
-  },
-  updated() {
     this.createDataTable()
   },
   methods: {
-    loadExperimentsData() {
+    async loadExperimentsData() {
       api.get('/experiments').then(res => {
         this.experiments = res.data
       }).catch(err => {
@@ -66,13 +64,10 @@ export default {
         "order": [[1, 'desc']],
         "info": true,
         "autoWidth": false,
-        "responsive": true,
-      });
+        "responsive": true
+      })
     },
-    formatDate(millis) {
-      let date = new Date(millis * 1000)
-      return moment(date).format('YYYY-MM-DD HH:mm:ss')
-    }
+    'formatDate': shared.formatDate
   }
 }
 </script>

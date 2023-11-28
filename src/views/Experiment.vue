@@ -14,6 +14,10 @@
               <dl class="row">
                 <dt class="col-sm-4">ID</dt>
                 <dd class="col-sm-8">{{ experiment._id }}</dd>
+                <dt class="col-sm-4">State</dt>
+                <dd class="col-sm-8">
+                  <span class="badge badge-pill" :class="experimentState">{{ experimentState }}</span>
+                </dd>
                 <dt class="col-sm-4">Protected keys voided</dt>
                 <dd class="col-sm-8">{{ experiment.protectedKeysVoided }}</dd>
                 <dt class="col-sm-4">RED version</dt>
@@ -26,7 +30,7 @@
             </div>
           </div>
 
-          <div class="card" v-if="batches">
+          <div class="card" v-if="batches.length > 0">
             <div class="card-header">
               <h3 class="card-title">
                 Batches
@@ -128,7 +132,7 @@
 
 <script>
 import api from '@/services/api'
-import moment from 'moment';
+import shared from '@/services/shared'
 
 import CLIInputsTable from '@/components/red/CLIInputsTable.vue'
 import CLIOutputsTable from '@/components/red/CLIOutputsTable.vue'
@@ -148,6 +152,11 @@ export default {
     this.loadExperimentData()
     this.loadExperimentBatches()
   },
+  computed: {
+    experimentState() {
+      return shared.experimentState(this.batches)
+    },
+  },
   methods: {
     loadExperimentData() {
       api.get('/experiments/' + this.$route.params.id).then(res => {
@@ -163,10 +172,7 @@ export default {
         console.log(err)
       })
     },
-    formatDate(millis) {
-      let date = new Date(millis * 1000)
-      return moment(date).format('YYYY-MM-DD HH:mm:ss')
-    }
+    'formatDate': shared.formatDate
   }
 }
 </script>
