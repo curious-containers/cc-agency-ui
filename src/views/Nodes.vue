@@ -75,7 +75,7 @@
 
 <script>
 import api from '@/services/api'
-import moment from 'moment';
+import shared from '@/services/shared'
 
 export default {
   name: 'Nodes',
@@ -106,10 +106,7 @@ export default {
       }
       return node.ram - usedRam
     },
-    formatDate(millis) {
-      let date = new Date(millis * 1000)
-      return moment(date).format('YYYY-MM-DD HH:mm:ss')
-    }
+    'formatDate': shared.formatDate
   }
 }
 </script>

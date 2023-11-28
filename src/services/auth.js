@@ -3,8 +3,8 @@ import store from '@/store'
 import router from '@/router'
 
 class AuthService {
-    login(username, password) {
-        return api.post('/login', {}, {
+    async login(username, password, redirectTo) {
+        return await api.post('/login', {}, {
             auth: {
                 username: username,
                 password: password
@@ -14,9 +14,11 @@ class AuthService {
                 store.dispatch('setUser', res.data.username)
                 store.dispatch('setToken', res.data.access_token)
                 store.dispatch('setRefreshToken', res.data.refresh_token)
-                router.push("/")
+                router.replace(redirectTo || '/');
             }
-            return res.data;
+            return true
+        }).catch((err) => {
+            return false
         });
     }
 

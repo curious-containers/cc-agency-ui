@@ -1,4 +1,5 @@
 import axiosInstance from "./api";
+import AuthService from '@/services/auth'
 
 const setup = (store) => {
     let retrys = 0
@@ -37,6 +38,12 @@ const setup = (store) => {
 
                     return axiosInstance(originalConfig);
                 } catch (_error) {
+                    if (_error.response) {
+                        const statusCode = _error.response.status;
+                        if (statusCode >= 400 && statusCode < 500) {
+                            AuthService.logout()
+                        }
+                    }
                     return Promise.reject(_error);
                 }
             }

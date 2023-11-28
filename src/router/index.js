@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import PassThrough from '@/views/PassThrough.vue'
 import Dashboard from '@/views/Dashboard.vue'
 import Login from '@/views/Login.vue'
 import Experiments from '@/views/Experiments.vue'
@@ -30,59 +31,59 @@ const routes = [
   },
   {
     path: '/experiments',
-    name: 'Experiments',
-    component: Experiments,
+    component: PassThrough,
     meta: {
       requiresAuth: true
-    }
-  },
-  {
-    path: '/experiments/:id',
-    name: 'Experiment',
-    component: Experiment,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
-    path: '/experiment/create',
-    name: 'Create Experiment',
-    component: ExperimentCreate,
-    meta: {
-      requiresAuth: true
-    }
+    },
+    children: [
+      {
+        path: '',
+        name: 'Experiments',
+        component: Experiments,
+        meta: {
+          requiresAuth: true
+        },
+      },
+      {
+        path: ':id',
+        name: 'Experiment',
+        component: Experiment,
+      },
+      {
+        path: 'create',
+        name: 'Create Experiment',
+        component: ExperimentCreate,
+      }
+    ]
   },
   {
     path: '/batches',
-    name: 'Batches',
-    component: Batches,
+    component: PassThrough,
     meta: {
       requiresAuth: true
-    }
-  },
-  {
-    path: '/batches/:id',
-    name: 'Batch',
-    component: Batch,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
-    path: '/batches/:id/stdout',
-    name: 'Batch Stdout',
-    component: Stdout,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
-    path: '/batches/:id/stderr',
-    name: 'Batch Stderr',
-    component: Stderr,
-    meta: {
-      requiresAuth: true
-    }
+    },
+    children: [
+      {
+        path: '',
+        name: 'Batches',
+        component: Batches,
+      },
+      {
+        path: ':id',
+        name: 'Batch',
+        component: Batch,
+      },
+      {
+        path: ':id/stdout',
+        name: 'Batch Stdout',
+        component: Stdout,
+      },
+      {
+        path: ':id/stderr',
+        name: 'Batch Stderr',
+        component: Stderr,
+      }
+    ]
   },
   {
     path: '/nodes',
@@ -99,15 +100,12 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth) {
-    if (store.getters.isLoggedIn) {
-      next();
-    } else {
-      next('/login');
+router.beforeEach((to, from) => {
+  if (to.meta.requiresAuth && !store.getters.isLoggedIn) {
+    return {
+      path: '/login',
+      query: { redirect: to.fullPath },
     }
-  } else {
-    next();
   }
 });
 
