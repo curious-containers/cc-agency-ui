@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     async handleLogin() {
-      this.isLoginSuccessful = await AuthService.login(this.username, this.password)
+      this.isLoginSuccessful = await AuthService.login(this.username, this.password, this.$route.query.redirect)
       if (!this.isLoginSuccessful) {
         this.username = ''
         this.password = ''

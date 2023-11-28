@@ -48,17 +48,11 @@ const routes = [
         path: ':id',
         name: 'Experiment',
         component: Experiment,
-        meta: {
-          requiresAuth: true
-        }
       },
       {
         path: 'create',
         name: 'Create Experiment',
         component: ExperimentCreate,
-        meta: {
-          requiresAuth: true
-        }
       }
     ]
   },
@@ -73,33 +67,21 @@ const routes = [
         path: '',
         name: 'Batches',
         component: Batches,
-        meta: {
-          requiresAuth: true
-        },
       },
       {
         path: ':id',
         name: 'Batch',
         component: Batch,
-        meta: {
-          requiresAuth: true
-        }
       },
       {
         path: ':id/stdout',
         name: 'Batch Stdout',
         component: Stdout,
-        meta: {
-          requiresAuth: true
-        }
       },
       {
         path: ':id/stderr',
         name: 'Batch Stderr',
         component: Stderr,
-        meta: {
-          requiresAuth: true
-        }
       }
     ]
   },
@@ -118,15 +100,12 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth) {
-    if (store.getters.isLoggedIn) {
-      next();
-    } else {
-      next('/login');
+router.beforeEach((to, from) => {
+  if (to.meta.requiresAuth && !store.getters.isLoggedIn) {
+    return {
+      path: '/login',
+      query: { redirect: to.fullPath },
     }
-  } else {
-    next();
   }
 });
 
