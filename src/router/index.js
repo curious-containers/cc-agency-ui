@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import PassThrough from '@/views/PassThrough.vue'
 import Dashboard from '@/views/Dashboard.vue'
 import Login from '@/views/Login.vue'
 import Experiments from '@/views/Experiments.vue'
@@ -30,59 +31,77 @@ const routes = [
   },
   {
     path: '/experiments',
-    name: 'Experiments',
-    component: Experiments,
+    component: PassThrough,
     meta: {
       requiresAuth: true
-    }
-  },
-  {
-    path: '/experiments/:id',
-    name: 'Experiment',
-    component: Experiment,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
-    path: '/experiment/create',
-    name: 'Create Experiment',
-    component: ExperimentCreate,
-    meta: {
-      requiresAuth: true
-    }
+    },
+    children: [
+      {
+        path: '',
+        name: 'Experiments',
+        component: Experiments,
+        meta: {
+          requiresAuth: true
+        },
+      },
+      {
+        path: ':id',
+        name: 'Experiment',
+        component: Experiment,
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: 'create',
+        name: 'Create Experiment',
+        component: ExperimentCreate,
+        meta: {
+          requiresAuth: true
+        }
+      }
+    ]
   },
   {
     path: '/batches',
-    name: 'Batches',
-    component: Batches,
+    component: PassThrough,
     meta: {
       requiresAuth: true
-    }
-  },
-  {
-    path: '/batches/:id',
-    name: 'Batch',
-    component: Batch,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
-    path: '/batches/:id/stdout',
-    name: 'Batch Stdout',
-    component: Stdout,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
-    path: '/batches/:id/stderr',
-    name: 'Batch Stderr',
-    component: Stderr,
-    meta: {
-      requiresAuth: true
-    }
+    },
+    children: [
+      {
+        path: '',
+        name: 'Batches',
+        component: Batches,
+        meta: {
+          requiresAuth: true
+        },
+      },
+      {
+        path: ':id',
+        name: 'Batch',
+        component: Batch,
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: ':id/stdout',
+        name: 'Batch Stdout',
+        component: Stdout,
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: ':id/stderr',
+        name: 'Batch Stderr',
+        component: Stderr,
+        meta: {
+          requiresAuth: true
+        }
+      }
+    ]
   },
   {
     path: '/nodes',

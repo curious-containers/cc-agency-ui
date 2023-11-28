@@ -112,4 +112,8 @@ nav p {
 .nav-footer {
   padding-bottom: 0px;
 }
+
+nav a.router-link-active {
+  color: #61abd1 !important;
+}
 </style>
