@@ -41,18 +41,35 @@ const routes = [
         name: 'Experiments',
         component: Experiments,
         meta: {
-          requiresAuth: true
-        },
+          breadcrumb: [
+            { name: 'Dashboard' },
+            { name: 'Experiments' }
+          ]
+        }
       },
       {
         path: ':id',
         name: 'Experiment',
         component: Experiment,
+        meta: {
+          breadcrumb: [
+            { name: 'Dashboard' },
+            { name: 'Experiments' },
+            { name: 'Experiment' }
+          ]
+        }
       },
       {
         path: 'create',
         name: 'Create Experiment',
         component: ExperimentCreate,
+        meta: {
+          breadcrumb: [
+            { name: 'Dashboard' },
+            { name: 'Experiments' },
+            { name: 'Create Experiment' }
+          ]
+        }
       }
     ]
   },
@@ -67,21 +84,50 @@ const routes = [
         path: '',
         name: 'Batches',
         component: Batches,
+        meta: {
+          breadcrumb: [
+            { name: 'Dashboard' },
+            { name: 'Batches' }
+          ]
+        }
       },
       {
         path: ':id',
         name: 'Batch',
         component: Batch,
+        meta: {
+          breadcrumb: [
+            { name: 'Dashboard' },
+            { name: 'Batches' },
+            { name: 'Batch' }
+          ]
+        }
       },
       {
         path: ':id/stdout',
         name: 'Batch Stdout',
         component: Stdout,
+        meta: {
+          breadcrumb: [
+            { name: 'Dashboard' },
+            { name: 'Batches' },
+            { name: 'Batch' },
+            { name: 'Stdout' }
+          ]
+        }
       },
       {
         path: ':id/stderr',
         name: 'Batch Stderr',
         component: Stderr,
+        meta: {
+          breadcrumb: [
+            { name: 'Dashboard' },
+            { name: 'Batches' },
+            { name: 'Batch' },
+            { name: 'Stderr' }
+          ]
+        }
       }
     ]
   },
@@ -90,7 +136,11 @@ const routes = [
     name: 'Nodes',
     component: Nodes,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      breadcrumb: [
+        { name: 'Dashboard' },
+        { name: 'Nodes' }
+      ]
     }
   }
 ]
