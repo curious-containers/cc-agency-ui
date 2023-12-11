@@ -40,7 +40,7 @@
               <dl class="row" v-for="batch in batches">
                 <dt class="col-sm-4">
                   <router-link :to="{ name: 'Batch', params: { id: batch._id } }">
-                    {{ batch.experimentId }}
+                    {{ batch._id }}
                   </router-link>
                 </dt>
                 <dd class="col-sm-8">
