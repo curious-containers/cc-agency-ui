@@ -906,7 +906,6 @@ export default {
         },
         startExperiment() {
             api.post('/red', this.getRedFromJsonEditor()).then(res => {
-                console.log(res)
                 this.experimentId = res.data.experimentId
                 this.showSuccModal()
             }).catch(err => {
